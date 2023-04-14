@@ -6,6 +6,12 @@ name = "pypi"
 [packages]
 django = "*"
 psycopg2-binary = "*"
+django-environ = "*"
+django-filter = "*"
+django-extensions = "*"
+djangorestframework = "*"
+django-cors-headers = "*"
+djoser = "*"
 
 [dev-packages]
 
