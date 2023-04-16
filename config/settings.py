@@ -14,7 +14,6 @@ from pathlib import Path
 import environ
 import os
 import django_on_heroku
-django_on_heroku.settings(locals())
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -97,7 +96,6 @@ DATABASES = {
     'default': env.db(),
 }
 
-del DATABASES['default']['OPTIONS']['sslmode']
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -153,3 +151,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+django_on_heroku.settings(locals())
+
+del DATABASES['default']['OPTIONS']['sslmode']
