@@ -8,11 +8,18 @@ class User(AbstractUser):
 
 
 class Weather(models.Model):
-    city = models.CharField(max_length=100)
-    temperature = models.DecimalField(max_digits=3, decimal_places=0)
-    description = models.CharField()
-    icon = models.CharField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    temp = models.DecimalField(max_digits=3, decimal_places=0)
 
     def __str__(self):
-        return self.city
+        return self.temp
+
+
+class Animal(models.Model):
+    name = models.CharField(max_length=100)
+    weather = models.ForeignKey(
+        Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True, related_name='animals_of_owner')
+
+    def __str__(self):
+        return self.name
