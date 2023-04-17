@@ -8,7 +8,8 @@ class User(AbstractUser):
 
 
 class Weather(models.Model):
-    temp = models.DecimalField(max_digits=3, decimal_places=0)
+    # temp = models.DecimalField(max_digits=3, decimal_places=0)
+    weather_code = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.temp
