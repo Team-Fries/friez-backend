@@ -1,6 +1,7 @@
 - Heroku endpoint:
 
-https://git.heroku.com/is-it-raining.git
+https://is-it-raining.herokuapp.com/
+
 
 - Below are Djoser endpoints with a link to the Djoser docs. You likely will not need many of these, but we wanted to provide them just in case.
   
