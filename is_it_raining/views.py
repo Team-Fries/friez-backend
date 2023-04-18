@@ -18,7 +18,8 @@ class WeatherAnimalView(APIView):
 
     def get(self, request, *args, **kwargs):
         # get code from url for kwarg
-        weather_code = self.kwargs["weather_code"]
+        original_code = self.kwargs["original_code"]
+        weather_code = (str(original_code))[0]
 
         # search weather using code, create if none
         weather, created = Weather.objects.get_or_create(
