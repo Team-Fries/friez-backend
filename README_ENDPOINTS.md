@@ -3,6 +3,13 @@
 https://is-it-raining.herokuapp.com/
 
 
+- AWS
+access key:
+AKIA4GTTUWMM6RYMRRXQ
+secret access key:
+It4xaUH1nbhCosVhfAHJLgUPRA85pCPV+yLWYEP5
+
+
 - Below are Djoser endpoints with a link to the Djoser docs. You likely will not need many of these, but we wanted to provide them just in case.
   
 https://djoser.readthedocs.io/en/latest/base_endpoints.html#user
