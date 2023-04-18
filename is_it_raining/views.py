@@ -25,7 +25,7 @@ class WeatherAnimalView(APIView):
         weather, created = Weather.objects.get_or_create(
             weather_code=weather_code)
 
-        animal_names = ["lizard", "rabbit", "centaur"]
+        # animal_names = ["lizard", "rabbit", "centaur"]
 
         # if it's true that it had to create it
         if created:
