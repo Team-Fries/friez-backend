@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import User, Animal, Weather
+from .models import User, Animal, Weather, CapturedAnimal
 
 admin.site.register(User)
 admin.site.register(Animal)
 admin.site.register(Weather)
+admin.site.register(CapturedAnimal)

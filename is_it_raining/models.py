@@ -24,3 +24,19 @@ class Animal(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CapturedAnimal(models.Model):
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='owner')
+    animal = models.ForeignKey(
+        Animal, on_delete=models.CASCADE, related_name='animal')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['owner', 'animal'], name='unique_ownership')
+        ]
+
+        def __str__(self):
+            return f"{self.owner} captured {self.animal}"
