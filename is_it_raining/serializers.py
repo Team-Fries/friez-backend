@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Weather, Animal
+from .models import Weather, Animal, CapturedAnimal
 
 
 class WeatherSerializer(serializers.ModelSerializer):
@@ -21,4 +21,14 @@ class AnimalSerializer(serializers.ModelSerializer):
             'name',
             'weather',
             'image'
+        )
+
+
+class CapturedAnimalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CapturedAnimal
+        fields = (
+            'owner',
+            'animal'
         )

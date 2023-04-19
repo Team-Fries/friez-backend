@@ -6,4 +6,5 @@ urlpatterns = [
     path("weather-animal/<int:original_code>/",
          views.AnimalDetailView.as_view(), name="weather_animal"),
     path("list-animals/", views.AnimalListView.as_view(), name="animal-list"),
+    path("captured/<str:name>/", views.CapturedAnimalView.as_view(), name="captured")
 ]
