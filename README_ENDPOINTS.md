@@ -5,16 +5,17 @@
 ___
 ### API ENDPOINT Shortcuts
 
-| HTTP Verbs | Endpoints                          | Action                                     |
-| ---------- | ---------------------------------- | ------------------------------------------ |
-| GET        | /auth/users/                       | Return info for logged in user             |
-| POST       | /auth/users/                       | Create new user                            |
-| POST       | /auth/token/login/                 | User login                                 |
-| POST       | /auth/token/logout/                | User logout                                |
-| GET        | /auth/users/me/                    | Retreives authenticated user               |
-| PATCH      | /auth/users/me/                    | Update authenticated user                  |
-| DELETE     | /auth/users/me/                    | Delete authenticated user                  |
-
+| HTTP Verbs | Endpoints                             | Action                                     |
+| ---------- | ------------------------------------  | ------------------------------------------ |
+| GET        | /auth/users                           | Return info for logged in user             |
+| POST       | /auth/users                           | Create new user                            |
+| POST       | /auth/token/login                     | User login                                 |
+| POST       | /auth/token/logout                    | User logout                                |
+| GET        | /auth/users/me                        | Retreives authenticated user               |
+| PATCH      | /auth/users/me                        | Update authenticated user                  |
+| DELETE     | /auth/users/me                        | Delete authenticated user                  |
+| GET        | /weather-animal/\<int:original_code\> | Random animal for weather passed in        |
+| GET        | /list-animals                         | List of all animals                        |
 
 ___
 
@@ -78,6 +79,56 @@ ___
 - Allowed Request: GET, PUT, PATCH, DELETE
 
 ___
+
+## 🦈   weather-animal/\<int:original_code\>
+
+- Randomly chooses an animal of the weather type passed in, `original_code` is the code for each weather type from the API documentation (ex. 800 for Clear, 100 for Thunderstorm)
+
+- Allowed Request: GET
+
+
+Stored As:
+```json
+{
+	"id": 10,
+	"name": "Toucan",
+	"weather": 9,
+	"image": null
+}
+```
+___
+
+## 🐆   list-animals/
+
+- List out all animals in the database
+
+- Allowed Request: GET
+
+
+Stored As:
+```json
+	{
+		"id": 7,
+		"name": "Megalodon",
+		"weather": 6,
+		"image": null
+	},
+	{
+		"id": 8,
+		"name": "Goat",
+		"weather": 7,
+		"image": null
+	},
+	{
+		"id": 9,
+		"name": "Trex",
+		"weather": 8,
+		"image": null
+	}
+```
+___
+
+
 
 ### For more Djoser endpoints you can look here:
 - `https://djoser.readthedocs.io/en/latest/base_endpoints.html#user`
