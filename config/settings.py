@@ -162,7 +162,7 @@ del DATABASES['default']['OPTIONS']['sslmode']
 
 
 if env('USE_S3'):
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
     # STORAGES = {"staticfiles": {
     #     "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}}

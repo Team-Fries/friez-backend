@@ -18,7 +18,8 @@ class Animal(models.Model):
     weather = models.ForeignKey(
         Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
     # adding an image attribute that will upload from AWS storage
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='team-fries-images')
     # ?? use URLFiled(null=True) instead??
 
     def __str__(self):
