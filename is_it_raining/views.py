@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,6 +6,7 @@ from rest_framework import generics, filters
 from rest_framework.views import APIView
 
 from .models import User, Weather, Animal
+from .serializers import WeatherSerializer, AnimalSerializer
 
 
 @api_view(["GET"])
@@ -35,3 +37,16 @@ class WeatherAnimalView(APIView):
             animal = Animal.objects.get(weather=weather)
 
         return Response({"animal": animal.name})
+
+
+class AnimalDetailView(generics.RetrieveAPIView):
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
+
+    def get_object(self, *args, **kwargs):
+        original_code = self.kwargs["original_code"]
+        weather_code = (str(original_code))[0]
+        animals = Animal.objects.filter(weather__weather_code=weather_code)
+        animals = list(animals)
+        random_animal = random.choice(animals)
+        return random_animal
