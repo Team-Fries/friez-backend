@@ -25,6 +25,8 @@ class AnimalSerializer(serializers.ModelSerializer):
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField(many=False)
+    animal = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = CapturedAnimal

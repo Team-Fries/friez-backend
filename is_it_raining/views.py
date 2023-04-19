@@ -48,3 +48,11 @@ class CapturedAnimalView(APIView):
         serializer = CapturedAnimalSerializer(captured)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class UserAnimalList(generics.ListAPIView):
+    serializer_class = CapturedAnimalSerializer
+
+    def get_queryset(self):
+        owner = self.request.user
+        return CapturedAnimal.objects.filter(owner=owner)

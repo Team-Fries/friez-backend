@@ -37,3 +37,6 @@ class CapturedAnimal(models.Model):
             models.UniqueConstraint(
                 fields=['owner', 'animal'], name='unique_ownership')
         ]
+
+        def __str__(self):
+            return f"{self.owner} captured {self.animal}"
