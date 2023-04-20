@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 
-from .models import User, Weather, Animal, CapturedAnimal
+from .models import User, Weather, Animal, CapturedAnimal, AnimalImage
 from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer
 
 
@@ -33,6 +33,7 @@ class WeatherAnimalView(generics.RetrieveAPIView):
         animals = Animal.objects.filter(weather__weather_code=weather_code)
         animals = list(animals)
         random_animal = random.choice(animals)
+
         return random_animal
 
 
