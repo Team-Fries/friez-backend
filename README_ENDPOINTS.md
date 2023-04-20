@@ -15,7 +15,10 @@ ___
 | PATCH      | /auth/users/me                        | Update authenticated user                  |
 | DELETE     | /auth/users/me                        | Delete authenticated user                  |
 | GET        | /weather-animal/\<int:original_code\> | Random animal for weather passed in        |
-| GET        | /list-animals                         | List of all animals                        |
+| GET        | /list-animals                         | List of all animals in database            |
+| POST       | /captured/\<str:name\>                | Captures animal passed in                  |
+| DELETE     | /captured/\<str:name\>                | Remove animal passed in                    |
+| GET        | /my-animals                           | List all the user's caught animals         |
 
 ___
 
@@ -80,9 +83,11 @@ ___
 
 ___
 
-## 🦈   weather-animal/\<int:original_code\>
+## 🦈   weather-animal/\<int:original_code\>/
 
-- Randomly chooses an animal of the weather type passed in, `original_code` is the code for each weather type from the API documentation (ex. 800 for Clear, 100 for Thunderstorm)
+- Randomly chooses an animal of the weather type passed in 
+
+- `<int:original_code>` is replaced with the code for weather type from the API documentation - (ex. 800 for Clear, 100 for Thunderstorm)
 
 - Allowed Request: GET
 
@@ -128,7 +133,59 @@ Stored As:
 ```
 ___
 
+## 🐊   captured/\<str:name\>/
 
+- If `POST` request, the logged in user captures the animal who's name is passed in (can be upper or lower case)
+
+- If `DELETE` request, the logged in user releases the animal passed in
+
+- `<str:name>` is replaced with animal's name
+
+- Allowed Request: POST, DELETE
+
+
+Stored As:
+```json
+{
+	"owner": "ivar",
+	"animal": "Trex"
+}
+```
+___
+
+## 🦋   my-animals/
+
+- List out all the animals the logged in user has caught
+
+- Allowed Request: GET
+
+
+Stored As:
+```json
+[
+	{
+		"owner": "ivar",
+		"animal": "Trex"
+	},
+	{
+		"owner": "ivar",
+		"animal": "Stegosaurus"
+	},
+	{
+		"owner": "ivar",
+		"animal": "Toucan"
+	},
+	{
+		"owner": "ivar",
+		"animal": "Goat"
+	},
+	{
+		"owner": "ivar",
+		"animal": "Alligator"
+	}
+]
+```
+___
 
 ### For more Djoser endpoints you can look here:
 - `https://djoser.readthedocs.io/en/latest/base_endpoints.html#user`
