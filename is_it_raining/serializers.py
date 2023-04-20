@@ -13,6 +13,9 @@ class WeatherSerializer(serializers.ModelSerializer):
 
 
 class AnimalSerializer(serializers.ModelSerializer):
+    images = serializers.SlugRelatedField(
+        read_only=True, many=True, slug_field='image')
+    random_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -20,8 +23,13 @@ class AnimalSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'weather',
-            'image'
+            'images',
+            'random_image'
         )
+
+    def get_random_image(self, obj):
+        image = obj.images.order_by("?").first()
+        return image
 
 
 class AnimalImageSerializer(serializers.ModelSerializer):
@@ -29,7 +37,7 @@ class AnimalImageSerializer(serializers.ModelSerializer):
     fields = (
         'id',
         'animal',
-        'name'
+        'image'
     )
 
 
