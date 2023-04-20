@@ -15,6 +15,7 @@ ___
 | PATCH      | /auth/users/me                        | Update authenticated user                  |
 | DELETE     | /auth/users/me                        | Delete authenticated user                  |
 | GET        | /weather-animal/\<int:original_code\> | Random animal for weather passed in        |
+| GET        | /animal-detail/\<str:name\>           | Details for single animal                  |
 | GET        | /list-animals                         | List of all animals in database            |
 | POST       | /captured/\<str:name\>                | Captures animal passed in                  |
 | DELETE     | /captured/\<str:name\>                | Remove animal passed in                    |
@@ -97,8 +98,28 @@ Stored As:
 {
 	"id": 10,
 	"name": "Toucan",
-	"weather": 9,
-	"image": null
+	"image": null,
+	"weather": "Clear"
+}
+```
+___
+
+## 🐺   animal-detail/\<str:name\>/
+
+- View details about single animal
+
+- `<str:name>` is replaced with animal name
+
+- Allowed Request: GET
+
+
+Stored As:
+```json
+{
+	"id": 7,
+	"name": "Megalodon",
+	"image": null,
+	"weather": "Rain"
 }
 ```
 ___
@@ -115,20 +136,20 @@ Stored As:
 	{
 		"id": 7,
 		"name": "Megalodon",
-		"weather": 6,
-		"image": null
+		"image": null,
+		"weather": "Rain"
 	},
 	{
 		"id": 8,
 		"name": "Goat",
-		"weather": 7,
-		"image": null
+		"image": null,
+		"weather": "Snow"
 	},
 	{
 		"id": 9,
 		"name": "Trex",
-		"weather": 8,
-		"image": null
+		"image": null,
+		"weather": "Atmosphere"
 	}
 ```
 ___

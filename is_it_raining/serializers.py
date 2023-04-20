@@ -13,15 +13,28 @@ class WeatherSerializer(serializers.ModelSerializer):
 
 
 class AnimalSerializer(serializers.ModelSerializer):
+    weather = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
         fields = (
             'id',
             'name',
-            'weather',
-            'image'
+            'image',
+            'weather'
         )
+
+    def get_weather(self, obj):
+        WEATHER_MAP = {
+            2: 'Thunderstorm',
+            3: 'Drizzle',
+            5: 'Rain',
+            6: 'Snow',
+            7: 'Atmosphere',
+            8: 'Clear',
+        }
+
+        return WEATHER_MAP.get(obj.weather.weather_code, '')
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):

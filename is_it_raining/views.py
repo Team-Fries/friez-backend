@@ -21,7 +21,7 @@ class AnimalListView(generics.ListAPIView):
     serializer_class = AnimalSerializer
 
 
-class AnimalDetailView(generics.RetrieveAPIView):
+class RandomAnimalView(generics.RetrieveAPIView):
     '''fetch random animal of weather type given in url
     '''
     queryset = Animal.objects.all()
@@ -68,3 +68,11 @@ class UserAnimalList(generics.ListAPIView):
     def get_queryset(self):
         owner = self.request.user
         return CapturedAnimal.objects.filter(owner=owner)
+
+
+class AnimalDetailView(generics.RetrieveAPIView):
+    '''display information about animal passed in
+    '''
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
+    lookup_field = 'name__iexact'
