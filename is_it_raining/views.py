@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 
-from .models import User, Weather, Animal, CapturedAnimal
-from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer
+from .models import User, Weather, Animal, CapturedAnimal, Trade
+from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer
 
 
 @api_view(["GET"])
@@ -60,7 +60,7 @@ class CapturedAnimalView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserAnimalList(generics.ListAPIView):
+class UserAnimalListView(generics.ListAPIView):
     serializer_class = CapturedAnimalSerializer
     ''' list of all the users caugh animals
     '''
@@ -76,3 +76,30 @@ class AnimalDetailView(generics.RetrieveAPIView):
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
     lookup_field = 'name__iexact'
+
+
+class TradeView(APIView):
+    ''' allow users to trade animals
+    '''
+
+    def post(self, request, offered_animal, desired_animal, trade_receiver_username):
+        trade_starter = request.user
+
+        trade_receiver = get_object_or_404(
+            User, username=trade_receiver_username)
+
+        offered_animal = get_object_or_404(
+            CapturedAnimal, animal=offered_animal, owner=trade_starter)
+
+        desired_animal = get_object_or_404(
+            CapturedAnimal, animal=desired_animal, owner=trade_receiver)
+
+        trade = Trade.objects.create(
+            trade_starter=trade_starter,
+            trade_receiver=trade_receiver,
+            offered_animal=offered_animal,
+            desired_animal=desired_animal,
+        )
+
+        serializer = TradeSerializer(trade)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
