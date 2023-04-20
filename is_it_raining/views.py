@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 
-from .models import User, Weather, Animal, CapturedAnimal
+from .models import User, Weather, Animal, CapturedAnimal, AnimalImage
 from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer
 
 
