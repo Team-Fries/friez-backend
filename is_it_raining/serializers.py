@@ -1,5 +1,6 @@
+import random
 from rest_framework import serializers
-from .models import Weather, Animal, CapturedAnimal
+from .models import Weather, Animal, CapturedAnimal, AnimalImage
 
 
 class WeatherSerializer(serializers.ModelSerializer):
@@ -13,6 +14,7 @@ class WeatherSerializer(serializers.ModelSerializer):
 
 
 class AnimalSerializer(serializers.ModelSerializer):
+    random_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -20,8 +22,25 @@ class AnimalSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'weather',
-            'image'
+            'images',
+            'random_image'
         )
+
+    def get_random_image(self, obj):
+        images = obj.images.order_by("?")
+        if images:
+            image = images.first()
+            return image.image.url
+        return None
+
+
+class AnimalImageSerializer(serializers.ModelSerializer):
+    model = AnimalImage
+    fields = (
+        'id',
+        'animal',
+        'image'
+    )
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
