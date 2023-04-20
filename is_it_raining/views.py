@@ -21,7 +21,7 @@ class AnimalListView(generics.ListAPIView):
     serializer_class = AnimalSerializer
 
 
-class RandomAnimalView(generics.RetrieveAPIView):
+class WeatherAnimalView(generics.RetrieveAPIView):
     '''fetch random animal of weather type given in url
     '''
     queryset = Animal.objects.all()
