@@ -52,7 +52,7 @@ class AnimalImageSerializer(serializers.ModelSerializer):
     fields = (
         'id',
         'animal',
-        'weather'
+        'image'
     )
 
 
