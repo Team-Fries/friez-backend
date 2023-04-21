@@ -5,23 +5,24 @@
 ___
 ### API ENDPOINT Shortcuts
 
-| HTTP Verbs | Endpoints                             | Action                                     |
-| ---------- | ------------------------------------  | ------------------------------------------ |
-| GET        | /auth/users                           | Return info for logged in user             |
-| POST       | /auth/users                           | Create new user                            |
-| POST       | /auth/token/login                     | User login                                 |
-| POST       | /auth/token/logout                    | User logout                                |
-| GET        | /auth/users/me                        | Retreives authenticated user               |
-| PATCH      | /auth/users/me                        | Update authenticated user                  |
-| DELETE     | /auth/users/me                        | Delete authenticated user                  |
-| GET        | /weather-animal/\<int:original_code\> | Random animal for weather passed in        |
-| GET        | /animal-detail/\<str:name\>           | Details for single animal                  |
-| GET        | /list-animals                         | List of all animals in database            |
-| POST       | /captured/\<str:name\>                | Captures animal passed in                  |
-| DELETE     | /captured/\<str:name\>                | Remove animal passed in                    |
-| GET        | /my-animals                           | List all the user's caught animals         |
+| HTTP Verbs | Endpoints                                                               | Action                                     |
+| ---------- | ----------------------------------------------------------------------- | ------------------------------------------ |
+| GET        | /auth/users                                                             | Return info for logged in user             |
+| POST       | /auth/users                                                             | Create new user                            |
+| POST       | /auth/token/login                                                       | User login                                 |
+| POST       | /auth/token/logout                                                      | User logout                                |
+| GET        | /auth/users/me                                                          | Retreives authenticated user               |
+| PATCH      | /auth/users/me                                                          | Update authenticated user                  |
+| DELETE     | /auth/users/me                                                          | Delete authenticated user                  |
+| GET        | /weather-animal/\<int:original_code\>                                   | Random animal for weather passed in        |
+| GET        | /animal-detail/\<str:name\>                                             | Details for single animal                  |
+| GET        | /list-animals                                                           | List of all animals in database            |
+| POST       | /captured/\<str:name\>                                                  | Captures animal passed in                  |
+| DELETE     | /captured/\<str:name\>                                                  | Remove animal passed in                    |
+| GET        | /my-animals                           								   | List all the user's caught animals         |
+| POST       | /trade/\<offered_animal\>/\<desired_animal\>/\<trade_receiver_username\>| User sends a request to trade              |
 
-___
+
 
 ### Documentation
 ___
@@ -205,6 +206,42 @@ Stored As:
 		"animal": "Alligator"
 	}
 ]
+```
+___
+
+## 🦇   trade/\<offered_animal\>/\<desired_animal\>/\<trade_receiver_username\>/
+
+- Logged in user makes a request to another user to trade animals
+
+- Allowed Request: POST
+
+- `<offered_animal>` is replaced with the name of the animal that the logged in user wants to offer in trade
+
+- `<desired_animal>` is replaced with the name of the animal that the logged in user wants
+
+- `<trade_receiver_username>` is replaced with the user that the logged in user wants to trade with
+
+
+Example url request:
+```
+https://is-it-raining.herokuapp.com/trade/toucan/toad/superuser/
+```
+
+Stored As:
+```json
+{
+	"id": 2,
+	"trade_starter": "ivar",
+	"trade_receiver": "superuser",
+	"offered_animal": {
+		"owner": "ivar",
+		"animal": "Toucan"
+	},
+	"desired_animal": {
+		"owner": "superuser",
+		"animal": "Toad"
+	}
+}
 ```
 ___
 
