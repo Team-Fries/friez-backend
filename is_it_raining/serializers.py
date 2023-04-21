@@ -22,7 +22,7 @@ class AnimalSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'image',
+            'weather'
             'images',
             'random_image'
         )
