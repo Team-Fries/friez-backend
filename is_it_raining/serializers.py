@@ -41,7 +41,8 @@ class AnimalSerializer(serializers.ModelSerializer):
             5: 'Rain',
             6: 'Snow',
             7: 'Atmosphere',
-            8: 'Clear',
+            8: 'Clouds',
+            9: 'Clear'
         }
 
         return WEATHER_MAP.get(obj.weather.weather_code, '')
