@@ -15,6 +15,7 @@ class WeatherSerializer(serializers.ModelSerializer):
 
 class AnimalSerializer(serializers.ModelSerializer):
     random_image = serializers.SerializerMethodField()
+    weather = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -32,6 +33,18 @@ class AnimalSerializer(serializers.ModelSerializer):
             image = images.first()
             return image.image.url
         return None
+
+    def get_weather(self, obj):
+        WEATHER_MAP = {
+            2: 'Thunderstorm',
+            3: 'Drizzle',
+            5: 'Rain',
+            6: 'Snow',
+            7: 'Atmosphere',
+            8: 'Clear',
+        }
+
+        return WEATHER_MAP.get(obj.weather.weather_code, '')
 
 
 class AnimalImageSerializer(serializers.ModelSerializer):
