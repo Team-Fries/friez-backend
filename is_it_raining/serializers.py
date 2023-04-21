@@ -58,7 +58,7 @@ class AnimalImageSerializer(serializers.ModelSerializer):
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
-    animal = serializers.StringRelatedField(many=False)
+    animal = AnimalSerializer()
 
     class Meta:
         model = CapturedAnimal
