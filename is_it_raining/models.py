@@ -17,13 +17,20 @@ class Animal(models.Model):
     name = models.CharField(max_length=100)
     weather = models.ForeignKey(
         Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
-    # adding an image attribute that will upload from AWS storage
-    image = models.ImageField(blank=True, null=True,
-                              upload_to='team-fries-images')
-    # ?? use URLFiled(null=True) instead??
 
     def __str__(self):
         return self.name
+
+
+# creating related image model so each animal can have multiple images
+class AnimalImage(models.Model):
+    animal = models.ForeignKey(
+        Animal, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='team-fries-images')
+
+    def __str__(self):
+        return f"Image for {self.animal}"
 
 
 class CapturedAnimal(models.Model):
