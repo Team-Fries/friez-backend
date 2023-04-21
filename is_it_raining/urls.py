@@ -7,6 +7,7 @@ urlpatterns = [
 
     path("weather-animal/<int:original_code>/",
          views.WeatherAnimalView.as_view(), name="weather-animal"),
+
     path("list-animals/", views.AnimalListView.as_view(), name="animal-list"),
 
     path("captured/<str:name>/", views.CapturedAnimalView.as_view(), name="captured"),
@@ -16,8 +17,7 @@ urlpatterns = [
     path("animal-detail/<str:name__iexact>/",
          views.AnimalDetailView.as_view(), name="animal-detail"),
 
-    path('trade/<slug:offered_animal>/<slug:desired_animal>/<str:trade_receiver_username>/',
+    path('trade/<slug:offered_animal_slug>/<slug:desired_animal_slug>/<str:trade_receiver_username>/',
          views.TradeView.as_view(), name='trade'),
-
 
 ]

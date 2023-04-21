@@ -17,6 +17,7 @@ class Animal(models.Model):
     name = models.CharField(max_length=100)
     weather = models.ForeignKey(
         Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
+from django.utils.text import slugify
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, AnimalImage
 from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer
@@ -83,17 +84,17 @@ class TradeView(APIView):
     ''' allow users to trade animals
     '''
 
-    def post(self, request, offered_animal, desired_animal, trade_receiver_username):
+    def post(self, request, offered_animal_slug, desired_animal_slug, trade_receiver_username):
         trade_starter = request.user
 
         trade_receiver = get_object_or_404(
             User, username=trade_receiver_username)
 
         offered_animal = get_object_or_404(
-            CapturedAnimal, animal=offered_animal, owner=trade_starter)
+            CapturedAnimal, animal__slug=offered_animal_slug, owner=trade_starter)
 
         desired_animal = get_object_or_404(
-            CapturedAnimal, animal=desired_animal, owner=trade_receiver)
+            CapturedAnimal, animal__slug=desired_animal_slug, owner=trade_receiver)
 
         trade = Trade.objects.create(
             trade_starter=trade_starter,
