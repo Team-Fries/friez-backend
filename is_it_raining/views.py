@@ -63,7 +63,7 @@ class CapturedAnimalView(APIView):
 
 class UserAnimalList(generics.ListAPIView):
     serializer_class = CapturedAnimalSerializer
-    ''' list of all the users caugh animals
+    ''' list of all the user's caught animals
     '''
 
     def get_queryset(self):

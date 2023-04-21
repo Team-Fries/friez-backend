@@ -22,7 +22,7 @@ class AnimalSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'weather'
+            'weather',
             'images',
             'random_image'
         )
@@ -33,15 +33,6 @@ class AnimalSerializer(serializers.ModelSerializer):
             image = images.first()
             return image.image.url
         return None
-
-
-class AnimalImageSerializer(serializers.ModelSerializer):
-    model = AnimalImage
-    fields = (
-        'id',
-        'animal',
-        'weather'
-    )
 
     def get_weather(self, obj):
         WEATHER_MAP = {
@@ -54,6 +45,15 @@ class AnimalImageSerializer(serializers.ModelSerializer):
         }
 
         return WEATHER_MAP.get(obj.weather.weather_code, '')
+
+
+class AnimalImageSerializer(serializers.ModelSerializer):
+    model = AnimalImage
+    fields = (
+        'id',
+        'animal',
+        'weather'
+    )
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
