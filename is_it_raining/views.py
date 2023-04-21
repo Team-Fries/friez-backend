@@ -30,7 +30,11 @@ class WeatherAnimalView(generics.RetrieveAPIView):
 
     def get_object(self, *args, **kwargs):
         original_code = self.kwargs["original_code"]
-        weather_code = (str(original_code))[0]
+        if original_code == 800:
+            weather_code = 9
+        else:
+            weather_code = (str(original_code))[0]
+
         animals = Animal.objects.filter(weather__weather_code=weather_code)
         animals = list(animals)
         random_animal = random.choice(animals)
