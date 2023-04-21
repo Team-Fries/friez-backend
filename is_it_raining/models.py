@@ -17,6 +17,7 @@ class Animal(models.Model):
     name = models.CharField(max_length=100)
     weather = models.ForeignKey(
         Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
+    slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -45,5 +46,19 @@ class CapturedAnimal(models.Model):
                 fields=['owner', 'animal'], name='unique_ownership')
         ]
 
-        def __str__(self):
-            return f"{self.owner} captured {self.animal}"
+    def __str__(self):
+        return f"{self.owner} captured {self.animal}"
+
+
+class Trade(models.Model):
+    trade_starter = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='initiated_trades')
+    trade_receiver = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='received_trades')
+    offered_animal = models.ForeignKey(
+        CapturedAnimal, on_delete=models.CASCADE, related_name='offered_in_trades')
+    desired_animal = models.ForeignKey(
+        CapturedAnimal, on_delete=models.CASCADE, related_name='desired_in_trades')
+
+    def __str__(self):
+        return f"{self.offered_animal} - EXCHANGED FOR: {self.desired_animal}"

@@ -1,6 +1,6 @@
 import random
 from rest_framework import serializers
-from .models import Weather, Animal, CapturedAnimal, AnimalImage
+from .models import Weather, Animal, CapturedAnimal, Trade, AnimalImage
 
 
 class WeatherSerializer(serializers.ModelSerializer):
@@ -65,4 +65,21 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
         fields = (
             'owner',
             'animal'
+        )
+
+
+class TradeSerializer(serializers.ModelSerializer):
+    trade_starter = serializers.StringRelatedField(many=False)
+    trade_receiver = serializers.StringRelatedField(many=False)
+    offered_animal = CapturedAnimalSerializer(many=False)
+    desired_animal = CapturedAnimalSerializer(many=False)
+
+    class Meta:
+        model = Trade
+        fields = (
+            'id',
+            'trade_starter',
+            'trade_receiver',
+            'offered_animal',
+            'desired_animal',
         )
