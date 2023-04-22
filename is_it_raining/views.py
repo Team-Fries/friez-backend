@@ -43,6 +43,8 @@ class WeatherAnimalView(generics.RetrieveAPIView):
 
 
 class WeatherIconView(generics.RetrieveAPIView):
+    ''' retreieve weather icon
+    '''
     queryset = WeatherIcon.objects.all()
     serializer_class = WeatherIconSerializer
     lookup_field = 'icon_code'
