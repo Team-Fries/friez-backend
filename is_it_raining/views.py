@@ -6,8 +6,8 @@ from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.utils.text import slugify
 
-from .models import User, Weather, Animal, CapturedAnimal, Trade, AnimalImage
-from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer
+from .models import User, Weather, Animal, CapturedAnimal, Trade, AnimalImage, WeatherIcon
+from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, WeatherIconSerializer
 
 
 @api_view(["GET"])
@@ -40,6 +40,12 @@ class WeatherAnimalView(generics.RetrieveAPIView):
         random_animal = random.choice(animals)
 
         return random_animal
+
+
+class WeatherIconView(generics.RetrieveAPIView):
+    queryset = WeatherIcon.objects.all()
+    serializer_class = WeatherIconSerializer
+    lookup_field = 'icon_code'
 
 
 class CapturedAnimalView(APIView):

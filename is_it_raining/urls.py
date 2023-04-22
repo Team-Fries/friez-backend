@@ -20,4 +20,7 @@ urlpatterns = [
     path('trade/<slug:offered_animal_slug>/<slug:desired_animal_slug>/<str:trade_receiver_username>/',
          views.TradeView.as_view(), name='trade'),
 
+    path('weather-icon/<int:icon_code>',
+         views.WeatherIconView.as_view(), name='weather-icon'),
+
 ]
