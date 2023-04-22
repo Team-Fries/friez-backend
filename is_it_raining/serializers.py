@@ -1,6 +1,6 @@
 import random
 from rest_framework import serializers
-from .models import Weather, Animal, CapturedAnimal, Trade, AnimalImage
+from .models import Weather, Animal, CapturedAnimal, Trade, AnimalImage, WeatherIcon
 
 
 class WeatherSerializer(serializers.ModelSerializer):
@@ -10,6 +10,17 @@ class WeatherSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'weather_code'
+        )
+
+
+class WeatherIconSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WeatherIcon
+        fields = (
+            'id',
+            'icon_code',
+            'icon_image'
         )
 
 
