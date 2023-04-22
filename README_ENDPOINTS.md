@@ -11,7 +11,7 @@ ___
 | POST       | /auth/users                                           | Create new user                            |
 | POST       | /auth/token/login                                     | User login                                 |
 | POST       | /auth/token/logout                                    | User logout                                |
-| GET        | /auth/users/me                                        | Retreives authenticated user               |
+| GET        | /auth/users/me                                        | Retrieve authenticated user                |
 | PATCH      | /auth/users/me                                        | Update authenticated user                  |
 | DELETE     | /auth/users/me                                        | Delete authenticated user                  |
 | GET        | /weather-animal/\<int:original_code\>                 | Random animal for weather passed in        |
@@ -23,8 +23,10 @@ ___
 | POST       | /trade                                                | User sends a request to trade              |
 | GET        | /my-offers                                            | List offers logged in user has created     |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
+| GET        | /weather-icon/\<int:icon_code\>                       | Retrieve weather icon                      |
 
-🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🐞 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦤 🦨 
+
+🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🐞 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛  🦨 
 
 ### Documentation
 ___
@@ -274,8 +276,21 @@ ___
 
 ___
 
-##   
+## 🦤   weather-icon/\<int:icon_code\>/
 
+- Retrieve the corresponding weather icon for code passed in
+
+- Allowed Request: GET
+
+Stored As:
+```json
+{
+	"id": 1,
+	"icon_code": 113,
+	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png"
+}
+```
+___
 
 ### For more Djoser endpoints you can look here:
 - `https://djoser.readthedocs.io/en/latest/base_endpoints.html#user`
