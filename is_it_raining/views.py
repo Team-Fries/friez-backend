@@ -43,6 +43,8 @@ class WeatherAnimalView(generics.RetrieveAPIView):
 
 
 class WeatherIconView(generics.RetrieveAPIView):
+    ''' retreieve weather icon
+    '''
     queryset = WeatherIcon.objects.all()
     serializer_class = WeatherIconSerializer
     lookup_field = 'icon_code'
@@ -73,9 +75,10 @@ class CapturedAnimalView(APIView):
 
 
 class UserAnimalListView(generics.ListAPIView):
-    serializer_class = CapturedAnimalSerializer
     ''' list of all the user's caught animals
     '''
+
+    serializer_class = CapturedAnimalSerializer
 
     def get_queryset(self):
         owner = self.request.user
@@ -94,17 +97,21 @@ class TradeView(APIView):
     ''' allow users to trade animals
     '''
 
-    def post(self, request, offered_animal_slug, desired_animal_slug, trade_receiver_username):
+    def post(self, request):
         trade_starter = request.user
+
+        offered_animal_data = request.data.get("offered_animal")
+        desired_animal_data = request.data.get("desired_animal")
+        trade_receiver_username = request.data.get("trade_receiver")
 
         trade_receiver = get_object_or_404(
             User, username=trade_receiver_username)
 
         offered_animal = get_object_or_404(
-            CapturedAnimal, animal__slug=offered_animal_slug, owner=trade_starter)
+            CapturedAnimal, animal__name=offered_animal_data, owner=trade_starter)
 
         desired_animal = get_object_or_404(
-            CapturedAnimal, animal__slug=desired_animal_slug, owner=trade_receiver)
+            CapturedAnimal, animal__name=desired_animal_data, owner=trade_receiver)
 
         trade = Trade.objects.create(
             trade_starter=trade_starter,
@@ -114,4 +121,27 @@ class TradeView(APIView):
         )
 
         serializer = TradeSerializer(trade)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class MyTradeOfferView(generics.ListAPIView):
+    ''' List all offers logged in user started
+    '''
+
+    serializer_class = TradeSerializer
+
+    def get_queryset(self):
+        trade_starter = self.request.user
+        return Trade.objects.filter(trade_starter=trade_starter)
+
+
+class MyReceivedOfferView(generics.ListAPIView):
+    ''' List all received offers made to user from other people
+    '''
+
+    serializer_class = TradeSerializer
+
+    def get_queryset(self):
+        trade_receiver = self.request.user
+        return Trade.objects.filter(trade_receiver=trade_receiver)
