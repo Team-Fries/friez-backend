@@ -13,6 +13,12 @@ class Weather(models.Model):
         return str(self.weather_code)
 
 
+class WeatherIcon(models.Model):
+    icon_code = models.IntegerField(blank=True, null=True)
+    icon_image = models.ImageField(blank=True, null=True,
+                                   upload_to='weather-icons')
+
+
 class Animal(models.Model):
     name = models.CharField(max_length=100)
     weather = models.ForeignKey(

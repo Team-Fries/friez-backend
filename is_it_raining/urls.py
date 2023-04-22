@@ -24,4 +24,7 @@ urlpatterns = [
     path('my-received-offers/', views.MyReceivedOfferView.as_view(),
          name='my-received-offers'),
 
+    path('weather-icon/<int:icon_code>',
+         views.WeatherIconView.as_view(), name='weather-icon'),
+
 ]
