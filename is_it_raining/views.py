@@ -94,7 +94,7 @@ class AnimalDetailView(generics.RetrieveAPIView):
 
 
 class TradeView(APIView):
-    ''' allow users to trade animals
+    ''' allow users to make a trade animals request
     '''
 
     def post(self, request):
