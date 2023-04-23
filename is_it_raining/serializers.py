@@ -92,6 +92,7 @@ class TradeSerializer(serializers.ModelSerializer):
             'id',
             'trade_starter',
             'trade_receiver',
+            'status',
             'offered_animal',
             'desired_animal',
         )

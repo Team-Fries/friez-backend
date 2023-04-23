@@ -24,7 +24,11 @@ urlpatterns = [
     path('my-received-offers/', views.MyReceivedOfferView.as_view(),
          name='my-received-offers'),
 
+    path('trade/accept/<int:trade_id>/',
+         views.TradeAcceptView.as_view(), name='trade-accept'),
+
     path('weather-icon/<int:icon_code>/',
          views.WeatherIconView.as_view(), name='weather-icon'),
+
 
 ]
