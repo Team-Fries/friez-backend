@@ -6,23 +6,28 @@ ___
 ### API ENDPOINT Shortcuts
 
 | HTTP Verbs | Endpoints                                                               | Action                                     |
-| ---------- | ----------------------------------------------------------------------- | ------------------------------------------ |
-| GET        | /auth/users                                                             | Return info for logged in user             |
-| POST       | /auth/users                                                             | Create new user                            |
-| POST       | /auth/token/login                                                       | User login                                 |
-| POST       | /auth/token/logout                                                      | User logout                                |
-| GET        | /auth/users/me                                                          | Retreives authenticated user               |
-| PATCH      | /auth/users/me                                                          | Update authenticated user                  |
-| DELETE     | /auth/users/me                                                          | Delete authenticated user                  |
-| GET        | /weather-animal/\<int:original_code\>                                   | Random animal for weather passed in        |
-| GET        | /animal-detail/\<str:name\>                                             | Details for single animal                  |
-| GET        | /list-animals                                                           | List of all animals in database            |
-| POST       | /captured/\<str:name\>                                                  | Captures animal passed in                  |
-| DELETE     | /captured/\<str:name\>                                                  | Remove animal passed in                    |
-| GET        | /my-animals                           								   | List all the user's caught animals         |
-| POST       | /trade/\<offered_animal\>/\<desired_animal\>/\<trade_receiver_username\>| User sends a request to trade              |
+| ---------- | ----------------------------------------------------- | ------------------------------------------ |
+| GET        | /auth/users                                           | Return info for logged in user             |
+| POST       | /auth/users                                           | Create new user                            |
+| POST       | /auth/token/login                                     | User login                                 |
+| POST       | /auth/token/logout                                    | User logout                                |
+| GET        | /auth/users/me                                        | Retrieve authenticated user                |
+| PATCH      | /auth/users/me                                        | Update authenticated user                  |
+| DELETE     | /auth/users/me                                        | Delete authenticated user                  |
+| GET        | /weather-animal/\<int:original_code\>                 | Random animal for weather passed in        |
+| GET        | /animal-detail/\<str:name\>                           | Details for single animal                  |
+| GET        | /list-animals                                         | List of all animals in database            |
+| POST       | /captured/\<str:name\>                                | Captures animal passed in                  |
+| DELETE     | /captured/\<str:name\>                                | Remove animal passed in                    |
+| GET        | /my-animals                           		         | List all the user's caught animals         |
+| POST       | /trade                                                | User sends a request to trade              |
+| GET        | /my-offers                                            | List offers logged in user created         |
+| GET        | /my-received-offers                                   | List offers recieved from other users      |
+| POST       | /trade/accept/\<int:trade_id\>                        | Accept a trade                             |
+| GET        | /weather-icon/\<int:icon_code\>                       | Retrieve weather icon                      |
 
 
+🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
 
 ### Documentation
 ___
@@ -52,7 +57,7 @@ Stored As:
 ```
 ___
 
-## 🌸   auth/token/login/
+## 🐠   auth/token/login/
 
 - User login (user gets token, expires after certain amount of time)
 
@@ -209,40 +214,87 @@ Stored As:
 ```
 ___
 
-## 🦇   trade/\<offered_animal\>/\<desired_animal\>/\<trade_receiver_username\>/
+## 🦇   trade/
 
 - Logged in user makes a request to another user to trade animals
 
 - Allowed Request: POST
 
-- `<offered_animal>` is replaced with the name of the animal that the logged in user wants to offer in trade
-
-- `<desired_animal>` is replaced with the name of the animal that the logged in user wants
-
-- `<trade_receiver_username>` is replaced with the user that the logged in user wants to trade with
+- Expects `POST` request with a `payload` with the required fields: `'trade_receiver', 'offered_animal', 'desired_animal'`
 
 
-Example url request:
-```
-https://is-it-raining.herokuapp.com/trade/toucan/toad/superuser/
+Example:
+```json
+{
+	"trade_receiver": "superuser",
+	"offered_animal": "Stegosaurus",
+	"desired_animal": "Megalodon"
+}
 ```
 
 Stored As:
 ```json
 {
-	"id": 2,
+	"id": 3,
 	"trade_starter": "ivar",
 	"trade_receiver": "superuser",
-	"offered_animal": {
-		"owner": "ivar",
-		"animal": "Toucan"
-	},
-	"desired_animal": {
-		"owner": "superuser",
-		"animal": "Toad"
-	}
+	"status": "pending",
+	"offered_animal": "Toucan",
+	"desired_animal": "Toad"
+},
+{
+	"id": 4,
+	"trade_starter": "ivar",
+	"trade_receiver": "superuser",
+	"status": "accepted",
+	"offered_animal": "Stegosaurus",
+	"desired_animal": "Megalodon"
 }
 ```
+___
+
+## 🪱   my-offers/
+
+- List of all the offers the logged in user has created
+
+- Allowed Request: GET
+
+___
+
+## 🐢   my-received-offers/
+
+- List of all the offers logged in user has received from other users
+
+- Allowed Request: GET
+
+___
+
+## 🦤   weather-icon/\<int:icon_code\>/
+
+- Retrieve the corresponding weather icon for code passed in
+
+- Allowed Request: GET
+
+Stored As:
+```json
+{
+	"id": 1,
+	"icon_code": 113,
+	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png"
+}
+```
+___
+
+## 🐞   trade/accept/\<int:trade_id\>/
+
+- Accept trade offer and animals will swap animals
+
+- Only trade_receiver can accept, NOT the person who started the trade (will say: 'You are not authorized to accept this trade request.')
+
+- replace `<int:trade_id>` with trade id
+
+- Allowed Request: POST
+
 ___
 
 ### For more Djoser endpoints you can look here:
