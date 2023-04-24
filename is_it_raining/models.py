@@ -17,6 +17,7 @@ class WeatherIcon(models.Model):
     icon_code = models.IntegerField(blank=True, null=True)
     icon_image = models.ImageField(blank=True, null=True,
                                    upload_to='weather-icons')
+    is_day = models.BooleanField(null=True)
 
 
 class Animal(models.Model):
