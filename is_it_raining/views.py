@@ -42,10 +42,35 @@ class WeatherAnimalView(generics.RetrieveAPIView):
         return random_animal
 
 
-class WeatherIconView(generics.RetrieveAPIView):
+class WeatherIconView(APIView):
     queryset = WeatherIcon.objects.all()
     serializer_class = WeatherIconSerializer
-    lookup_field = 'icon_code'
+
+    def post(self, request):
+        icon_code = request.data.get('icon_code')
+        time_of_day = request.data.get('timeOfDay')
+        is_day = True if time_of_day == 'day' else False
+
+        if not icon_code or not time_of_day:
+            return Response({'error': 'Both icon_code and timeOfDay are required.'}, status=400)
+        try:
+            if is_day:
+                weather_icon = WeatherIcon.objects.get(
+                    icon_code=icon_code, is_day=True)
+            else:
+                weather_icon = WeatherIcon.objects.get(
+                    icon_code=icon_code, is_day=False)
+        except WeatherIcon.DoesNotExist:
+            return Response({'error': 'WeatherIcon object does not exist.'}, status=400)
+
+        serialized_icon = WeatherIconSerializer(weather_icon).data
+        return Response(serialized_icon)
+
+
+# class WeatherIconView(generics.RetrieveAPIView):
+#     queryset = WeatherIcon.objects.all()
+#     serializer_class = WeatherIconSerializer
+#     lookup_field = 'icon_code'
 
 
 class CapturedAnimalView(APIView):

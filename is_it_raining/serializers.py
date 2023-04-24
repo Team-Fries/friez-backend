@@ -20,7 +20,8 @@ class WeatherIconSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'icon_code',
-            'icon_image'
+            'icon_image',
+            'is_day'
         )
 
 
