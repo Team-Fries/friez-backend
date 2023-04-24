@@ -83,8 +83,8 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
 class TradeSerializer(serializers.ModelSerializer):
     trade_starter = serializers.StringRelatedField(many=False)
     trade_receiver = serializers.StringRelatedField(many=False)
-    offered_animal = CapturedAnimalSerializer(many=False)
-    desired_animal = CapturedAnimalSerializer(many=False)
+    offered_animal = serializers.SerializerMethodField()
+    desired_animal = serializers.SerializerMethodField()
 
     class Meta:
         model = Trade
@@ -92,6 +92,13 @@ class TradeSerializer(serializers.ModelSerializer):
             'id',
             'trade_starter',
             'trade_receiver',
+            'status',
             'offered_animal',
             'desired_animal',
         )
+
+    def get_offered_animal(self, obj):
+        return obj.offered_animal.animal.name
+
+    def get_desired_animal(self, obj):
+        return obj.desired_animal.animal.name

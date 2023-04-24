@@ -21,12 +21,13 @@ ___
 | DELETE     | /captured/\<str:name\>                                | Remove animal passed in                    |
 | GET        | /my-animals                           		         | List all the user's caught animals         |
 | POST       | /trade                                                | User sends a request to trade              |
-| GET        | /my-offers                                            | List offers logged in user has created     |
+| GET        | /my-offers                                            | List offers logged in user created         |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
+| POST       | /trade/accept/\<int:trade_id\>                        | Accept a trade                             |
 | GET        | /weather-icon/\<int:icon_code\>                       | Retrieve weather icon                      |
 
 
-🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🐞 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛  🦨 
+🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
 
 ### Documentation
 ___
@@ -219,9 +220,10 @@ ___
 
 - Allowed Request: POST
 
+- Expects `POST` request with a `payload` with the required fields: `'trade_receiver', 'offered_animal', 'desired_animal'`
 
 
-Expects these fields in POST request:
+Example:
 ```json
 {
 	"trade_receiver": "superuser",
@@ -233,29 +235,20 @@ Expects these fields in POST request:
 Stored As:
 ```json
 {
+	"id": 3,
+	"trade_starter": "ivar",
+	"trade_receiver": "superuser",
+	"status": "pending",
+	"offered_animal": "Toucan",
+	"desired_animal": "Toad"
+},
+{
 	"id": 4,
 	"trade_starter": "ivar",
 	"trade_receiver": "superuser",
-	"offered_animal": {
-		"owner": "ivar",
-		"animal": {
-			"id": 11,
-			"name": "Stegosaurus",
-			"weather": "Clouds",
-			"images": [],
-			"random_image": null
-		}
-	},
-	"desired_animal": {
-		"owner": "superuser",
-		"animal": {
-			"id": 7,
-			"name": "Megalodon",
-			"weather": "Rain",
-			"images": [],
-			"random_image": null
-		}
-	}
+	"status": "accepted",
+	"offered_animal": "Stegosaurus",
+	"desired_animal": "Megalodon"
 }
 ```
 ___
@@ -290,6 +283,18 @@ Stored As:
 	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png"
 }
 ```
+___
+
+## 🐞   trade/accept/\<int:trade_id\>/
+
+- Accept trade offer and animals will swap animals
+
+- Only trade_receiver can accept, NOT the person who started the trade (will say: 'You are not authorized to accept this trade request.')
+
+- replace `<int:trade_id>` with trade id
+
+- Allowed Request: POST
+
 ___
 
 ### For more Djoser endpoints you can look here:

@@ -94,7 +94,7 @@ class AnimalDetailView(generics.RetrieveAPIView):
 
 
 class TradeView(APIView):
-    ''' allow users to trade animals
+    ''' allow users to make a trade animals request
     '''
 
     def post(self, request):
@@ -145,3 +145,30 @@ class MyReceivedOfferView(generics.ListAPIView):
     def get_queryset(self):
         trade_receiver = self.request.user
         return Trade.objects.filter(trade_receiver=trade_receiver)
+
+
+class TradeAcceptView(APIView):
+    ''' allow trade receiver to accept a trade request and swap animals
+    '''
+
+    def post(self, request, trade_id):
+        trade = get_object_or_404(Trade, id=trade_id, status='pending')
+        trade_receiver = request.user
+
+        if trade.trade_receiver != trade_receiver:
+            return Response({'detail': 'You are not authorized to accept this trade request.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # swap animals
+        offered_animal = trade.offered_animal
+        desired_animal = trade.desired_animal
+        offered_animal.owner, desired_animal.owner = desired_animal.owner, offered_animal.owner
+        offered_animal.save()
+        desired_animal.save()
+
+        # update the trade status
+        trade.status = 'accepted'
+        trade.save()
+
+        serializer = TradeSerializer(trade)
+
+        return Response(serializer.data)
