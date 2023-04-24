@@ -24,7 +24,8 @@ ___
 | GET        | /my-offers                                            | List offers logged in user created         |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
 | POST       | /trade/accept/\<int:trade_id\>                        | Accept a trade                             |
-| GET        | /weather-icon/\<int:icon_code\>                       | Retrieve weather icon                      |
+| POST       | /weather-icon                                         | Retrieve weather icon
+     
 
 
 🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
@@ -275,12 +276,21 @@ ___
 
 - Allowed Request: GET
 
+Example:
+```json
+{
+	"icon_code": "113",
+	"timeOfDay": "day",
+}
+```
+
 Stored As:
 ```json
 {
 	"id": 1,
 	"icon_code": 113,
-	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png"
+	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png",
+    "is_day": True
 }
 ```
 ___
