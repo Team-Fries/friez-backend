@@ -42,8 +42,15 @@ class WeatherAnimalView(generics.RetrieveAPIView):
         return random_animal
 
 
-class BackgroundView(APIView):
-    pass
+class BackgroundView(generics.ListAPIView):
+    serializer_class = BackgroundSerializer
+
+    def get_queryset(self):
+        queryset = Background.objects.all()
+        code = self.request.query_params.get('code')[0]
+        timeofday = self.request.query_params.get('timeofday')
+        queryset = queryset.filter(code=code, day_or_night=timeofday)
+        return queryset
 
 
 class WeatherIconView(APIView):

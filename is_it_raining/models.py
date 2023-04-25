@@ -20,6 +20,9 @@ class Background(models.Model):
     code = models.CharField(max_length=3)
     day_or_night = models.CharField(max_length=2)
 
+    def __str__(self):
+        return self.name
+
 
 class WeatherIcon(models.Model):
     icon_code = models.IntegerField(blank=True, null=True)
