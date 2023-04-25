@@ -29,5 +29,6 @@ urlpatterns = [
 
     path('weather-icon/', views.WeatherIconView.as_view(), name='weather-icon'),
 
+    path('background/', views.BackgroundView.as_view(), name='background'),
 
 ]

@@ -24,7 +24,8 @@ ___
 | GET        | /my-offers                                            | List offers logged in user created         |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
 | POST       | /trade/accept/\<int:trade_id\>                        | Accept a trade                             |
-| POST       | /weather-icon                                         | Retrieve weather icon
+| POST       | /weather-icon                                         | Retrieve weather icon                      |
+| GET        | /background/                                          | Retrieve Background Image                  |
      
 
 
@@ -304,6 +305,20 @@ ___
 - replace `<int:trade_id>` with trade id
 
 - Allowed Request: POST
+
+___
+
+## 🐞   background/
+
+- Display correct background image per weather condition and day or night
+
+- Allowed Rquest: GET
+
+- ** URL needs query parameters after 'background/': 'code,' for the 3-digit weather code, and 'timeofday' which needs to be 'am' or 'pm' (example below)
+
+Example URL:
+
+https://is-it-raining.herokuapp.com/background/?code=800&timeofday=am
 
 ___
 
