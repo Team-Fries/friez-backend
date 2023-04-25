@@ -13,6 +13,14 @@ class Weather(models.Model):
         return str(self.weather_code)
 
 
+class Background(models.Model):
+    name = models.CharField(max_length=100, blank=True, null=True)
+    background_image = models.ImageField(blank=True, null=True,
+                                         upload_to='background')
+    code = models.CharField(max_length=3)
+    day_or_night = models.CharField(max_length=2)
+
+
 class WeatherIcon(models.Model):
     icon_code = models.IntegerField(blank=True, null=True)
     icon_image = models.ImageField(blank=True, null=True,

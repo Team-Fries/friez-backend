@@ -30,4 +30,5 @@ urlpatterns = [
     path('weather-icon/', views.WeatherIconView.as_view(), name='weather-icon'),
 
 
+
 ]
