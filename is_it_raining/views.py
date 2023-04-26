@@ -84,18 +84,16 @@ class UserAnimalListView(generics.ListAPIView):
         return CapturedAnimal.objects.filter(owner=owner)
 
 
-class AnimalDetailView(generics.RetrieveAPIView):
-    '''display information about animal passed in
+class AnimalDetailView(APIView):
+    ''' display information about animal passed in
     '''
-    serializer_class = AnimalSerializer
 
-    def get_object(self):
-        name = self.kwargs.get('name__iexact')
-        variation_type = self.kwargs.get('variation_type__iexact')
+    def get(self, request, name, variation_type):
         animal = Animal.objects.get(
             name__iexact=name, variation_type__iexact=variation_type)
+        serializer = AnimalSerializer(animal)
 
-        return animal
+        return Response(serializer.data)
 
 
 class TradeView(APIView):
