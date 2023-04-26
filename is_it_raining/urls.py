@@ -15,8 +15,8 @@ urlpatterns = [
 
     path("my-animals/", views.UserAnimalListView.as_view(), name="my-animals"),
 
-    path("animal-detail/<str:name__iexact>/<str:variation_type__iexact>/",
-         views.AnimalDetailView.as_view(), name="animal-detail"),
+    path('animal-detail/<str:name>/<str:variation_type>/',
+         views.AnimalDetailView.as_view(), name='animal-detail'),
 
     path('trade/', views.TradeView.as_view(), name='trade'),
 

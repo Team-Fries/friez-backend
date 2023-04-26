@@ -24,13 +24,6 @@ class Background(models.Model):
         return self.name
 
 
-# class WeatherIcon(models.Model):
-#     icon_code = models.IntegerField(blank=True, null=True)
-#     icon_image = models.ImageField(blank=True, null=True,
-#                                    upload_to='weather-icons')
-#     is_day = models.BooleanField(null=True)
-
-
 class Animal(models.Model):
 
     VARIATION_CHOICES = (
@@ -51,17 +44,6 @@ class Animal(models.Model):
 
     def __str__(self):
         return f"{self.name} - type: {self.variation_type}"
-
-
-# creating related image model so each animal can have multiple images
-# class AnimalImage(models.Model):
-#     animal = models.ForeignKey(
-#         Animal, on_delete=models.CASCADE, related_name='images')
-#     image = models.ImageField(blank=True, null=True,
-#                               upload_to='team-fries-images')
-
-#     def __str__(self):
-#         return f"Image for {self.animal}"
 
 
 class CapturedAnimal(models.Model):
