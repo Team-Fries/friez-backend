@@ -15,10 +15,10 @@ ___
 | PATCH      | /auth/users/me                                        | Update authenticated user                  |
 | DELETE     | /auth/users/me                                        | Delete authenticated user                  |
 | GET        | /weather-animal/\<int:original_code\>                 | Random animal for weather passed in        |
-| GET        | /animal-detail/\<str:name\>                           | Details for single animal                  |
+| GET        | /animal-detail/\<str:name\>/\<str:variation_type\>    | Details for single animal                  |
 | GET        | /list-animals                                         | List of all animals in database            |
-| POST       | /captured/\<str:name\>                                | Captures animal passed in                  |
-| DELETE     | /captured/\<str:name\>                                | Remove animal passed in                    |
+| POST       | /captured/\<str:name\>/\<str:variation\>              | Captures animal passed in                  |
+| DELETE     | /captured/\<str:name\>/\<str:variation\>              | Remove animal passed in                    |
 | GET        | /my-animals                           		         | List all the user's caught animals         |
 | POST       | /trade                                                | User sends a request to trade              |
 | GET        | /my-offers                                            | List offers logged in user created         |
@@ -112,11 +112,13 @@ Stored As:
 ```
 ___
 
-## 🐺   animal-detail/\<str:name\>/
+## 🐺   animal-detail/\<str:name\>/\<str:variation_type\>/
 
 - View details about single animal
 
 - `<str:name>` is replaced with animal name
+
+- `<str:variation_type>` is replaced with animal variation
 
 - Allowed Request: GET
 
@@ -162,13 +164,15 @@ Stored As:
 ```
 ___
 
-## 🐊   captured/\<str:name\>/
+## 🐊   captured/\<str:name\>/\<str:variation\>/ 
 
 - If `POST` request, the logged in user captures the animal who's name is passed in (can be upper or lower case)
 
 - If `DELETE` request, the logged in user releases the animal passed in
 
 - `<str:name>` is replaced with animal's name
+
+- `<str:variation>` is replaced with animal's variation
 
 - Allowed Request: POST, DELETE
 

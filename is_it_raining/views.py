@@ -1,3 +1,4 @@
+from django.utils import timezone
 import random
 from datetime import datetime
 from datetime import time
@@ -7,9 +8,12 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.utils.text import slugify
+from django.core.cache import cache
+from django.http import Http404
 
-from .models import User, Weather, Animal, CapturedAnimal, Trade, WeatherIcon, Background
-from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, WeatherIconSerializer, BackgroundSerializer
+
+from .models import User, Weather, Animal, CapturedAnimal, Trade, Background
+from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, BackgroundSerializer
 
 
 @api_view(["GET"])
@@ -24,27 +28,9 @@ class AnimalListView(generics.ListAPIView):
     serializer_class = AnimalSerializer
 
 
-class WeatherAnimalView(generics.RetrieveAPIView):
-    '''fetch random animal of weather type given in url
-    '''
-    queryset = Animal.objects.all()
-    serializer_class = AnimalSerializer
-
-    def get_object(self, *args, **kwargs):
-        original_code = self.kwargs["original_code"]
-        if original_code == 800:
-            weather_code = 9
-        else:
-            weather_code = (str(original_code))[0]
-
-        animals = Animal.objects.filter(weather__weather_code=weather_code)
-        animals = list(animals)
-        random_animal = random.choice(animals)
-
-        return random_animal
-
-
 class BackgroundView(generics.ListAPIView):
+    ''' fetch background for the right time of day
+    '''
     serializer_class = BackgroundSerializer
 
     def get_queryset(self):
@@ -60,53 +46,25 @@ class BackgroundView(generics.ListAPIView):
         return queryset
 
 
-class WeatherIconView(APIView):
-    queryset = WeatherIcon.objects.all()
-    serializer_class = WeatherIconSerializer
-
-    def post(self, request):
-        icon_code = request.data.get('icon_code')
-        time_of_day = request.data.get('timeOfDay')
-        is_day = True if time_of_day == 'day' else False
-
-        if not icon_code or not time_of_day:
-            return Response({'error': 'Both icon_code and timeOfDay are required.'}, status=400)
-        try:
-            if is_day:
-                weather_icon = WeatherIcon.objects.get(
-                    icon_code=icon_code, is_day=True)
-            else:
-                weather_icon = WeatherIcon.objects.get(
-                    icon_code=icon_code, is_day=False)
-        except WeatherIcon.DoesNotExist:
-            return Response({'error': 'WeatherIcon object does not exist.'}, status=400)
-
-        serialized_icon = WeatherIconSerializer(weather_icon).data
-        return Response(serialized_icon)
-
-
-# class WeatherIconView(generics.RetrieveAPIView):
-#     queryset = WeatherIcon.objects.all()
-#     serializer_class = WeatherIconSerializer
-#     lookup_field = 'icon_code'
-
-
 class CapturedAnimalView(APIView):
     '''logged in user captures animal or removes an animal
     '''
 
-    def post(self, request, name):
+    def post(self, request, name, variation):
         owner = request.user
-        animal = get_object_or_404(Animal, name__iexact=name)
+        animal = get_object_or_404(
+            Animal, name__iexact=name, variation_type__iexact=variation)
 
         captured = CapturedAnimal.objects.create(owner=owner, animal=animal)
-        serializer = CapturedAnimalSerializer(captured)
+        serializer = CapturedAnimalSerializer(
+            captured, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def delete(self, request, name):
+    def delete(self, request, name, variation):
         owner = request.user
-        animal = get_object_or_404(Animal, name__iexact=name)
+        animal = get_object_or_404(
+            Animal, name__iexact=name, variation_type__iexact=variation)
 
         release_animal = get_object_or_404(
             CapturedAnimal, owner=owner, animal=animal)
@@ -129,9 +87,15 @@ class UserAnimalListView(generics.ListAPIView):
 class AnimalDetailView(generics.RetrieveAPIView):
     '''display information about animal passed in
     '''
-    queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
-    lookup_field = 'name__iexact'
+
+    def get_object(self):
+        name = self.kwargs.get('name__iexact')
+        variation_type = self.kwargs.get('variation_type__iexact')
+        animal = Animal.objects.get(
+            name__iexact=name, variation_type__iexact=variation_type)
+
+        return animal
 
 
 class TradeView(APIView):
@@ -213,3 +177,34 @@ class TradeAcceptView(APIView):
         serializer = TradeSerializer(trade)
 
         return Response(serializer.data)
+
+
+class WeatherAnimalView(generics.RetrieveAPIView):
+    '''fetch random animal of weather type given in url
+    '''
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
+
+    def get_object(self, *args, **kwargs):
+        original_code = self.kwargs["original_code"]
+        if original_code == 800:
+            weather_code = 9
+        else:
+            weather_code = (str(original_code))[0]
+
+        animals = Animal.objects.filter(weather__weather_code=weather_code)
+        animals = list(animals)
+
+        # generate cache key specific to animal's name and variation type
+        cache_key = f"weather_animal:{animals[0].name}:{animals[0].variation_type}"
+
+        # check if cache exists for the animal and variation type
+        cached_animal = cache.get(cache_key)
+        if cached_animal:
+            return cached_animal
+
+        # if cache doesn't exist, choose a random animal and cache it
+        random_animal = random.choice(animals)
+        cache.set(cache_key, random_animal, 43200)  # cache for 12 hours
+
+        return random_animal
