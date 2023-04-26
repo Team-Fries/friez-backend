@@ -32,24 +32,36 @@ class WeatherIcon(models.Model):
 
 
 class Animal(models.Model):
+
+    VARIATION_CHOICES = (
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D')
+    )
+
     name = models.CharField(max_length=100)
     weather = models.ForeignKey(
         Weather, on_delete=models.CASCADE, related_name='weather_type_for_animal')
     slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-
-# creating related image model so each animal can have multiple images
-class AnimalImage(models.Model):
-    animal = models.ForeignKey(
-        Animal, on_delete=models.CASCADE, related_name='images')
+    variation_type = models.CharField(
+        choices=VARIATION_CHOICES, default='A', max_length=20)
     image = models.ImageField(blank=True, null=True,
                               upload_to='team-fries-images')
 
     def __str__(self):
-        return f"Image for {self.animal}"
+        return f"{self.name} - type: {self.variation_type}"
+
+
+# creating related image model so each animal can have multiple images
+# class AnimalImage(models.Model):
+#     animal = models.ForeignKey(
+#         Animal, on_delete=models.CASCADE, related_name='images')
+#     image = models.ImageField(blank=True, null=True,
+#                               upload_to='team-fries-images')
+
+#     def __str__(self):
+#         return f"Image for {self.animal}"
 
 
 class CapturedAnimal(models.Model):

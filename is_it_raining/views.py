@@ -6,7 +6,7 @@ from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.utils.text import slugify
 
-from .models import User, Weather, Animal, CapturedAnimal, Trade, AnimalImage, WeatherIcon, Background
+from .models import User, Weather, Animal, CapturedAnimal, Trade, WeatherIcon, Background
 from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, WeatherIconSerializer, BackgroundSerializer
 
 
