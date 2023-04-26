@@ -11,7 +11,7 @@ from django.utils.text import slugify
 from django.core.cache import cache
 
 
-from .models import User, Weather, Animal, CapturedAnimal, Trade, WeatherIcon, Background
+from .models import User, Weather, Animal, CapturedAnimal, Trade, Background
 from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, BackgroundSerializer
 
 
