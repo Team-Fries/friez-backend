@@ -12,7 +12,7 @@ from django.core.cache import cache
 
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, WeatherIcon, Background
-from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, WeatherIconSerializer, BackgroundSerializer
+from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, BackgroundSerializer
 
 
 @api_view(["GET"])
@@ -65,31 +65,31 @@ class BackgroundView(generics.ListAPIView):
         return queryset
 
 
-class WeatherIconView(APIView):
-    ''' fetch icon for the right time of day
-    '''
-    queryset = WeatherIcon.objects.all()
-    serializer_class = WeatherIconSerializer
+# class WeatherIconView(APIView):
+#     ''' fetch icon for the right time of day
+#     '''
+#     queryset = WeatherIcon.objects.all()
+#     serializer_class = WeatherIconSerializer
 
-    def post(self, request):
-        icon_code = request.data.get('icon_code')
-        time_of_day = request.data.get('timeOfDay')
-        is_day = True if time_of_day == 'day' else False
+#     def post(self, request):
+#         icon_code = request.data.get('icon_code')
+#         time_of_day = request.data.get('timeOfDay')
+#         is_day = True if time_of_day == 'day' else False
 
-        if not icon_code or not time_of_day:
-            return Response({'error': 'Both icon_code and timeOfDay are required.'}, status=400)
-        try:
-            if is_day:
-                weather_icon = WeatherIcon.objects.get(
-                    icon_code=icon_code, is_day=True)
-            else:
-                weather_icon = WeatherIcon.objects.get(
-                    icon_code=icon_code, is_day=False)
-        except WeatherIcon.DoesNotExist:
-            return Response({'error': 'WeatherIcon object does not exist.'}, status=400)
+#         if not icon_code or not time_of_day:
+#             return Response({'error': 'Both icon_code and timeOfDay are required.'}, status=400)
+#         try:
+#             if is_day:
+#                 weather_icon = WeatherIcon.objects.get(
+#                     icon_code=icon_code, is_day=True)
+#             else:
+#                 weather_icon = WeatherIcon.objects.get(
+#                     icon_code=icon_code, is_day=False)
+#         except WeatherIcon.DoesNotExist:
+#             return Response({'error': 'WeatherIcon object does not exist.'}, status=400)
 
-        serialized_icon = WeatherIconSerializer(weather_icon).data
-        return Response(serialized_icon)
+#         serialized_icon = WeatherIconSerializer(weather_icon).data
+#         return Response(serialized_icon)
 
 
 class CapturedAnimalView(APIView):
@@ -101,7 +101,8 @@ class CapturedAnimalView(APIView):
         animal = get_object_or_404(Animal, name__iexact=name)
 
         captured = CapturedAnimal.objects.create(owner=owner, animal=animal)
-        serializer = CapturedAnimalSerializer(captured)
+        serializer = CapturedAnimalSerializer(
+            captured, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -242,6 +243,6 @@ class WeatherAnimalView(generics.RetrieveAPIView):
 
         # if cache doesn't exist, choose a random animal and cache it
         random_animal = random.choice(animals)
-        cache.set(cache_key, random_animal, 10)  # cache for 12 hours
+        cache.set(cache_key, random_animal, 43200)  # cache for 12 hours
 
         return random_animal

@@ -27,7 +27,7 @@ urlpatterns = [
     path('trade/accept/<int:trade_id>/',
          views.TradeAcceptView.as_view(), name='trade-accept'),
 
-    path('weather-icon/', views.WeatherIconView.as_view(), name='weather-icon'),
+    #     path('weather-icon/', views.WeatherIconView.as_view(), name='weather-icon'),
 
     path('background/', views.BackgroundView.as_view(), name='background'),
 
