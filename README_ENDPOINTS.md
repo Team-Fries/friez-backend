@@ -308,17 +308,17 @@ ___
 
 ___
 
-## 🐞   background/
+## 🐏   background/
 
 - Display correct background image per weather condition and day or night
 
 - Allowed Rquest: GET
 
-- ** URL needs query parameters after 'background/': 'code,' for the 3-digit weather code, and 'timeofday' which needs to be 'am' or 'pm' (example below)
+- ** URL needs query parameter after 'background/': 'code,' for the 3-digit weather code
 
 Example URL:
 
-https://is-it-raining.herokuapp.com/background/?code=800&timeofday=am
+https://is-it-raining.herokuapp.com/background/?code=800
 
 ___
 
