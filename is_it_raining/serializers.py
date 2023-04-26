@@ -65,22 +65,22 @@ class AnimalSerializer(serializers.ModelSerializer):
 class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
     animal = AnimalSerializer()
-    already_captured = serializers.SerializerMethodField()
+    # already_captured = serializers.SerializerMethodField()
 
     class Meta:
         model = CapturedAnimal
         fields = (
             'owner',
             'animal',
-            'already_captured'
+            # 'already_captured'
         )
 
-    def get_already_captured(self, obj):
-        # get user making request from view
-        user = self.context['request'].user
-        captured_animal = CapturedAnimal.objects.filter(
-            owner=user, animal=obj.animal).exists()
-        return captured_animal
+    # def get_already_captured(self, obj):
+    #     # get user making request from view
+    #     user = self.context['request'].user
+    #     captured_animal = CapturedAnimal.objects.filter(
+    #         owner=user, animal=obj.animal).exists()
+    #     return captured_animal
 
 
 class TradeSerializer(serializers.ModelSerializer):

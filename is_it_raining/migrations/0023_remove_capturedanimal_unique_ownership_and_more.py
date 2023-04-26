@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='capturedanimal',
-            constraint=models.UniqueConstraint(fields=('owner', 'animal', 'animal__variation_type'), name='unique_ownership'),
+            constraint=models.UniqueConstraint(
+                fields=('owner', 'animal'), name='unique_ownership'),
         ),
     ]

@@ -24,12 +24,11 @@ ___
 | GET        | /my-offers                                            | List offers logged in user created         |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
 | POST       | /trade/accept/\<int:trade_id\>                        | Accept a trade                             |
-| POST       | /weather-icon                                         | Retrieve weather icon                      |
 | GET        | /background/                                          | Retrieve Background Image                  |
      
 
 
-🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
+🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🦤 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
 
 ### Documentation
 ___
@@ -275,31 +274,6 @@ ___
 
 ___
 
-## 🦤   weather-icon/\<int:icon_code\>/
-
-- Retrieve the corresponding weather icon for code passed in
-
-- Allowed Request: GET
-
-Example:
-```json
-{
-	"icon_code": "113",
-	"timeOfDay": "day",
-}
-```
-
-Stored As:
-```json
-{
-	"id": 1,
-	"icon_code": 113,
-	"icon_image": "https://team-fries-images.s3.us-east-2.amazonaws.com/weather-icons/113_wXyK48G.png",
-    "is_day": True
-}
-```
-___
-
 ## 🐞   trade/accept/\<int:trade_id\>/
 
 - Accept trade offer and animals will swap animals
@@ -321,8 +295,9 @@ ___
 - ** URL needs query parameters after 'background/': 'code,' for the 3-digit weather code, and 'timeofday' which needs to be 'am' or 'pm' (example below)
 
 Example URL:
-
+```
 https://is-it-raining.herokuapp.com/background/?code=800&timeofday=am
+```
 
 ___
 
