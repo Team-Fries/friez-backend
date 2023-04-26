@@ -26,18 +26,6 @@ class BackgroundSerializer(serializers.ModelSerializer):
         )
 
 
-# class WeatherIconSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = WeatherIcon
-#         fields = (
-#             'id',
-#             'icon_code',
-#             'icon_image',
-#             'is_day'
-#         )
-
-
 class AnimalSerializer(serializers.ModelSerializer):
     # random_image = serializers.SerializerMethodField()
     weather = serializers.SerializerMethodField()

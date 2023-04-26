@@ -9,6 +9,7 @@ from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.utils.text import slugify
 from django.core.cache import cache
+from django.http import Http404
 
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, Background
@@ -86,9 +87,15 @@ class UserAnimalListView(generics.ListAPIView):
 class AnimalDetailView(generics.RetrieveAPIView):
     '''display information about animal passed in
     '''
-    queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
-    lookup_field = ('name__iexact', 'variation_type__iexact')
+
+    def get_object(self):
+        name = self.kwargs.get('name__iexact')
+        variation_type = self.kwargs.get('variation_type__iexact')
+        animal = Animal.objects.get(
+            name__iexact=name, variation_type__iexact=variation_type)
+
+        return animal
 
 
 class TradeView(APIView):
