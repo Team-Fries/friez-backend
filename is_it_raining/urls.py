@@ -10,11 +10,12 @@ urlpatterns = [
 
     path("list-animals/", views.AnimalListView.as_view(), name="animal-list"),
 
-    path("captured/<str:name>/", views.CapturedAnimalView.as_view(), name="captured"),
+    path("captured/<str:name>/<str:variation>/",
+         views.CapturedAnimalView.as_view(), name="captured"),
 
     path("my-animals/", views.UserAnimalListView.as_view(), name="my-animals"),
 
-    path("animal-detail/<str:name__iexact>/",
+    path("animal-detail/<str:name__iexact>/<str:variation_type__iexact>/",
          views.AnimalDetailView.as_view(), name="animal-detail"),
 
     path('trade/', views.TradeView.as_view(), name='trade'),
