@@ -56,15 +56,35 @@ class CapturedAnimalView(APIView):
 
         captured, created = CapturedAnimal.objects.get_or_create(
             owner=owner, animal=animal,
-            defaults={'last_captured': datetime.now(timezone.utc)})
+            defaults={'last_capture_date': datetime.now(timezone.utc), 'points': 0})
 
         if not created:
-            points = captured.get_points()
-            if points == 0:
+            last_capture_date = captured.last_capture_date
+            time_difference = (datetime.now(timezone.utc) -
+                               last_capture_date).total_seconds()
+
+            time_limit_seconds = 20  # 1 minute
+            #  86400 for 24 hours
+
+            if time_difference < time_limit_seconds:
                 return Response(
-                    {"error": "You have already captured an animal of this variation within 24 hours!"},
+                    {"error": "You have already captured this animal within 24 hours!"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+            else:
+                captured.last_capture_date = datetime.now(timezone.utc)
+                captured.points += 1
+                captured.save()
+
+        # if captured.points == 10:
+        #     new_animal = SpecialAnimal.objects.filter(
+        #         variation_type=variation).first()
+        #     if new_animal:
+        #         special_captured = CapturedAnimal.objects.create(
+        #             owner=owner, animal=new_animal, points=0)
+        #         serializer = CapturedAnimalSerializer(
+        #             special_captured, context={'request': request})
+        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         serializer = CapturedAnimalSerializer(
             captured, context={'request': request})

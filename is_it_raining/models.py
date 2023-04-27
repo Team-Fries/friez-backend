@@ -51,7 +51,13 @@ class CapturedAnimal(models.Model):
         User, on_delete=models.CASCADE, related_name='owner')
     animal = models.ForeignKey(
         Animal, on_delete=models.CASCADE, related_name='animal')
-    points = models.IntegerField(default=0)
+    last_capture_date = models.DateTimeField(
+        auto_now=True, null=True, blank=True)
+    capture_count = models.PositiveIntegerField(default=1)
+    points = models.PositiveIntegerField(default=1)
+
+    def get_points(self):
+        return self.points
 
     class Meta:
         constraints = [
