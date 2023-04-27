@@ -8,9 +8,7 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.db import IntegrityError
-from django.utils.text import slugify
 from django.core.cache import cache
-from django.http import Http404
 
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, Background

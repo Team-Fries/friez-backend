@@ -1,6 +1,5 @@
 import random
 from rest_framework.validators import UniqueTogetherValidator
-from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from .models import Weather, Animal, CapturedAnimal, Trade, Background
 
@@ -73,7 +72,6 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
         fields = (
             'owner',
             'animal',
-            'already_captured'
         )
 
     validators = [
