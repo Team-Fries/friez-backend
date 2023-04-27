@@ -51,6 +51,7 @@ class CapturedAnimal(models.Model):
         User, on_delete=models.CASCADE, related_name='owner')
     animal = models.ForeignKey(
         Animal, on_delete=models.CASCADE, related_name='animal')
+    points = models.IntegerField(default=0)
 
     class Meta:
         constraints = [
@@ -59,7 +60,7 @@ class CapturedAnimal(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.owner} captured {self.animal}"
+        return f"{self.owner} captured {self.animal} ({self.points} points)"
 
 
 class Trade(models.Model):

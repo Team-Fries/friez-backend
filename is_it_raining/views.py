@@ -54,31 +54,22 @@ class CapturedAnimalView(APIView):
         animal = get_object_or_404(
             Animal, name__iexact=name, variation_type__iexact=variation)
 
-        try:
-            captured = CapturedAnimal.objects.create(
-                owner=owner, animal=animal)
-        except IntegrityError:
-            # return custom error response if duplicate ownership
-            return Response(
-                {"error": "You have already captured an animal of this variation!"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        captured, created = CapturedAnimal.objects.get_or_create(
+            owner=owner, animal=animal,
+            defaults={'last_captured': datetime.now(timezone.utc)})
+
+        if not created:
+            points = captured.get_points()
+            if points == 0:
+                return Response(
+                    {"error": "You have already captured an animal of this variation within 24 hours!"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         serializer = CapturedAnimalSerializer(
             captured, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def delete(self, request, name, variation):
-        owner = request.user
-        animal = get_object_or_404(
-            Animal, name__iexact=name, variation_type__iexact=variation)
-
-        release_animal = get_object_or_404(
-            CapturedAnimal, owner=owner, animal=animal)
-        release_animal.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserAnimalListView(generics.ListAPIView):

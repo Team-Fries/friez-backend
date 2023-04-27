@@ -66,12 +66,14 @@ class AnimalSerializer(serializers.ModelSerializer):
 class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
     animal = AnimalSerializer()
+    points = serializers.IntegerField()
 
     class Meta:
         model = CapturedAnimal
         fields = (
             'owner',
             'animal',
+            'points',
         )
 
     validators = [
