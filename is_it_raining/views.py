@@ -7,9 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
-from django.utils.text import slugify
+from django.db import IntegrityError
 from django.core.cache import cache
-from django.http import Http404
 
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, Background
@@ -55,7 +54,16 @@ class CapturedAnimalView(APIView):
         animal = get_object_or_404(
             Animal, name__iexact=name, variation_type__iexact=variation)
 
-        captured = CapturedAnimal.objects.create(owner=owner, animal=animal)
+        try:
+            captured = CapturedAnimal.objects.create(
+                owner=owner, animal=animal)
+        except IntegrityError:
+            # return custom error response if duplicate ownership
+            return Response(
+                {"error": "You have already captured an animal of this variation!"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = CapturedAnimalSerializer(
             captured, context={'request': request})
 
