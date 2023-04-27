@@ -1,4 +1,6 @@
 import random
+from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from .models import Weather, Animal, CapturedAnimal, Trade, Background
 
@@ -65,22 +67,22 @@ class AnimalSerializer(serializers.ModelSerializer):
 class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
     animal = AnimalSerializer()
-    # already_captured = serializers.SerializerMethodField()
 
     class Meta:
         model = CapturedAnimal
         fields = (
             'owner',
             'animal',
-            # 'already_captured'
+            'already_captured'
         )
 
-    # def get_already_captured(self, obj):
-    #     # get user making request from view
-    #     user = self.context['request'].user
-    #     captured_animal = CapturedAnimal.objects.filter(
-    #         owner=user, animal=obj.animal).exists()
-    #     return captured_animal
+    validators = [
+        UniqueTogetherValidator(
+            queryset=CapturedAnimal.objects.all(),
+            fields=('owner', 'animal__variation_type'),
+            message="You have already captured an animal of this variation!"
+        )
+    ]
 
 
 class TradeSerializer(serializers.ModelSerializer):
