@@ -73,7 +73,7 @@ class CapturedAnimal(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['owner', 'animal', 'animal__variation_type'], name='unique_ownership')
+                fields=['owner', 'animal'], name='unique_ownership')
         ]
 
     def __str__(self):
