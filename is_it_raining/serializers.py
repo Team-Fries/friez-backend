@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+from django.utils import timezone
 from rest_framework.validators import UniqueTogetherValidator
 from rest_framework import serializers
 from .models import Weather, Animal, CapturedAnimal, Trade, Background
@@ -29,6 +31,7 @@ class BackgroundSerializer(serializers.ModelSerializer):
 
 class AnimalSerializer(serializers.ModelSerializer):
     weather = serializers.SerializerMethodField()
+    can_capture = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -38,6 +41,7 @@ class AnimalSerializer(serializers.ModelSerializer):
             'weather',
             'variation_type',
             'image',
+            'can_capture',
         )
 
     def get_weather(self, obj):
@@ -52,6 +56,33 @@ class AnimalSerializer(serializers.ModelSerializer):
         }
 
         return WEATHER_MAP.get(obj.weather.weather_code, '')
+
+    def get_can_capture(self, obj):
+        # get the current request object, which is passed to the serializer context.
+        request = self.context.get('request')
+
+        # checks if the request object is None or if the user is not authenticated.
+        # If either of these conditions is true, then the user cannot capture the animal, so it returns False.
+        if not request or not request.user.is_authenticated:
+            return False
+
+        # Check if the user has captured this animal before
+        try:
+            captured_animal = CapturedAnimal.objects.get(
+                owner=request.user, animal=obj)
+        except CapturedAnimal.DoesNotExist:
+            return True
+
+        # Calculate the time difference between now and the last capture date
+        last_capture_date = captured_animal.last_capture_date
+        time_difference = (datetime.now(timezone.utc) -
+                           last_capture_date).total_seconds()
+
+        # Check if enough time has passed for the user to capture the animal again
+        if time_difference < 43200:
+            return False
+        else:
+            return True
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
