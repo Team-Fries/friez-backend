@@ -65,7 +65,7 @@ class CapturedAnimalView(APIView):
 
             #  86400 seconds for 24 hours
             # 43200 seconds for 12 hours
-            if time_difference < 43200:
+            if time_difference < 10:
                 return Response(
                     {"error": "You have already captured this animal within 12 hours!"},
                     status=status.HTTP_400_BAD_REQUEST,

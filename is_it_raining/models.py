@@ -99,14 +99,14 @@ class SpecialAnimal(models.Model):
                               upload_to='team-fries-images')
 
     def __str__(self):
-        return f"Special {self.animal}"
+        return f"{self.animal.name} {self.animal.variation_type}"
 
 
 class CapturedSpecialAnimal(models.Model):
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='owner')
+        User, on_delete=models.CASCADE, related_name='special_owner')
     special_animal = models.ForeignKey(
-        SpecialAnimal, on_delete=models.CASCADE, related_name='special-animal')
+        SpecialAnimal, on_delete=models.CASCADE, related_name='special_animal')
 
     def __str__(self):
-        return f"{self.owner} obtained {self.special_animal}"
+        return f"{self.owner} unlocked {self.special_animal.animal.name} {self.special_animal.animal.variation_type}"
