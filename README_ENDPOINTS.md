@@ -35,7 +35,7 @@ ___
 
 ## 🐝   auth/users/
 
-- Creates a new user if `POST` request, if `GET` request returns stored info for logged in user
+- Creates a new user if POST request, if GET request returns stored info for logged in user
 
 - Allowed Request: GET, POST
 
@@ -103,10 +103,11 @@ ___
 Stored As:
 ```json
 {
-	"id": 10,
-	"name": "Toucan",
-	"image": null,
-	"weather": "Clear"
+	"id": 30,
+	"name": "Quetzalcoatlus",
+	"weather": "Clear",
+	"variation_type": "C",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_brown_by_cleopatrawolf_dfv8ljx_4xdotqA.gif"
 }
 ```
 ___
@@ -126,9 +127,10 @@ Stored As:
 ```json
 {
 	"id": 7,
-	"name": "Megalodon",
-	"image": null,
-	"weather": "Rain"
+	"name": "Goat",
+	"weather": "Snow",
+	"variation_type": "A",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/goat_blue_by_cleopatrawolf_dfv0vbv.gif"
 }
 ```
 ___
@@ -142,32 +144,35 @@ ___
 
 Stored As:
 ```json
-	{
-		"id": 7,
-		"name": "Megalodon",
-		"image": null,
-		"weather": "Rain"
+{
+		"id": 4,
+		"name": "Alligator",
+		"weather": "Thunderstorm",
+		"variation_type": "A",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_green_by_cleopatrawolf_dfv8lhg_b05MUUF.gif"
 	},
 	{
-		"id": 8,
-		"name": "Goat",
-		"image": null,
-		"weather": "Snow"
+		"id": 12,
+		"name": "Alligator",
+		"weather": "Thunderstorm",
+		"variation_type": "B",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_purple_by_cleopatrawolf_dfv8li4_i0CiUHr.gif"
 	},
 	{
-		"id": 9,
-		"name": "Trex",
-		"image": null,
-		"weather": "Atmosphere"
-	}
+		"id": 13,
+		"name": "Alligator",
+		"weather": "Thunderstorm",
+		"variation_type": "C",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_red_by_cleopatrawolf_dfv8lhv_dianuG0.gif"
+	},
 ```
 ___
 
 ## 🐊   captured/\<str:name\>/\<str:variation\>/ 
 
-- If `POST` request, the logged in user captures the animal who's name is passed in (can be upper or lower case)
+- If POST request, the logged in user captures the animal who's name is passed in (can be upper or lower case)
 
-- If `DELETE` request, the logged in user releases the animal passed in
+- If DELETE request, the logged in user releases the animal passed in
 
 - `<str:name>` is replaced with animal's name
 
@@ -179,8 +184,14 @@ ___
 Stored As:
 ```json
 {
-	"owner": "ivar",
-	"animal": "Trex"
+	"owner": "superuser",
+	"animal": {
+		"id": 24,
+		"name": "Toucan",
+		"weather": "Clear",
+		"variation_type": "B",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_blue_by_cleopatrawolf_dfv0vat.gif"
+	}
 }
 ```
 ___
@@ -194,28 +205,36 @@ ___
 
 Stored As:
 ```json
-[
 	{
-		"owner": "ivar",
-		"animal": "Trex"
+		"owner": "superuser",
+		"animal": {
+			"id": 7,
+			"name": "Goat",
+			"weather": "Snow",
+			"variation_type": "A",
+			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/goat_blue_by_cleopatrawolf_dfv0vbv.gif"
+		}
 	},
 	{
-		"owner": "ivar",
-		"animal": "Stegosaurus"
+		"owner": "superuser",
+		"animal": {
+			"id": 8,
+			"name": "Trex",
+			"weather": "Atmosphere",
+			"variation_type": "A",
+			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/trex_brown_by_cleopatrawolf_dfv0vae_5A6Wqb2.gif"
+		}
 	},
 	{
-		"owner": "ivar",
-		"animal": "Toucan"
+		"owner": "superuser",
+		"animal": {
+			"id": 10,
+			"name": "Stegosaurus",
+			"weather": "Clouds",
+			"variation_type": "A",
+			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/stego_green_by_cleopatrawolf_dfv0vba.gif"
+		}
 	},
-	{
-		"owner": "ivar",
-		"animal": "Goat"
-	},
-	{
-		"owner": "ivar",
-		"animal": "Alligator"
-	}
-]
 ```
 ___
 
@@ -225,7 +244,7 @@ ___
 
 - Allowed Request: POST
 
-- Expects `POST` request with a `payload` with the required fields: `'trade_receiver', 'offered_animal', 'desired_animal'`
+- Expects POST request with a payload with the required fields: `'trade_receiver', 'offered_animal', 'desired_animal'`
 
 
 Example:
