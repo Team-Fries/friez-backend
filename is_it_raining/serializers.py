@@ -32,6 +32,7 @@ class BackgroundSerializer(serializers.ModelSerializer):
 class AnimalSerializer(serializers.ModelSerializer):
     weather = serializers.SerializerMethodField()
     can_capture = serializers.SerializerMethodField()
+    points_left_until_max = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -42,6 +43,7 @@ class AnimalSerializer(serializers.ModelSerializer):
             'variation_type',
             'image',
             'can_capture',
+            'points_left_until_max',
         )
 
     def get_weather(self, obj):
@@ -83,6 +85,23 @@ class AnimalSerializer(serializers.ModelSerializer):
             return False
         else:
             return True
+
+    def get_points_left_until_max(self, obj):
+        request = self.context.get('request')
+
+        if not request or not request.user.is_authenticated:
+            return None
+        try:
+            captured_animal = CapturedAnimal.objects.get(
+                owner=request.user, animal=obj)
+        except CapturedAnimal.DoesNotExist:
+            return None
+
+        points_left = max(10 - captured_animal.points, 0)
+        if points_left <= 0:
+            return 0
+        else:
+            return points_left
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
