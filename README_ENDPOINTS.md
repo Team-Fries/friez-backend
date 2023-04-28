@@ -103,11 +103,16 @@ ___
 Stored As:
 ```json
 {
-	"id": 30,
-	"name": "Quetzalcoatlus",
-	"weather": "Clear",
-	"variation_type": "C",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_brown_by_cleopatrawolf_dfv8ljx_4xdotqA.gif"
+	"owner": "ivar",
+	"animal": {
+		"id": 12,
+		"name": "Quetzalcoatlus",
+		"weather": "Clear",
+		"variation_type": "A",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
+		"can_capture": false
+	},
+	"points": 1
 }
 ```
 ___
@@ -126,11 +131,12 @@ ___
 Stored As:
 ```json
 {
-	"id": 7,
-	"name": "Goat",
-	"weather": "Snow",
+	"id": 12,
+	"name": "Quetzalcoatlus",
+	"weather": "Clear",
 	"variation_type": "A",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/goat_blue_by_cleopatrawolf_dfv0vbv.gif"
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
+	"can_capture": false
 }
 ```
 ___
@@ -184,14 +190,16 @@ ___
 Stored As:
 ```json
 {
-	"owner": "superuser",
+	"owner": "ivar",
 	"animal": {
-		"id": 24,
-		"name": "Toucan",
-		"weather": "Clear",
+		"id": 17,
+		"name": "Trex",
+		"weather": "Atmosphere",
 		"variation_type": "B",
-		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_blue_by_cleopatrawolf_dfv0vat.gif"
-	}
+		"image": null,
+		"can_capture": false
+	},
+	"points": 4
 }
 ```
 ___
@@ -206,34 +214,40 @@ ___
 Stored As:
 ```json
 	{
-		"owner": "superuser",
-		"animal": {
-			"id": 7,
-			"name": "Goat",
-			"weather": "Snow",
-			"variation_type": "A",
-			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/goat_blue_by_cleopatrawolf_dfv0vbv.gif"
-		}
-	},
-	{
-		"owner": "superuser",
-		"animal": {
-			"id": 8,
-			"name": "Trex",
-			"weather": "Atmosphere",
-			"variation_type": "A",
-			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/trex_brown_by_cleopatrawolf_dfv0vae_5A6Wqb2.gif"
-		}
-	},
-	{
-		"owner": "superuser",
+		"owner": "ivar",
 		"animal": {
 			"id": 10,
-			"name": "Stegosaurus",
-			"weather": "Clouds",
+			"name": "Toucan",
+			"weather": "Clear",
 			"variation_type": "A",
-			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/stego_green_by_cleopatrawolf_dfv0vba.gif"
-		}
+			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_black_by_cleopatrawolf_dfv0vav_NSlUIpJ.gif",
+			"can_capture": true
+		},
+		"points": 0
+	},
+	{
+		"owner": "ivar",
+		"animal": {
+			"id": 16,
+			"name": "Alligator",
+			"weather": "Thunderstorm",
+			"variation_type": "B",
+			"image": null,
+			"can_capture": true
+		},
+		"points": 0
+	},
+	{
+		"owner": "ivar",
+		"animal": {
+			"id": 15,
+			"name": "Toucan",
+			"weather": "Clear",
+			"variation_type": "B",
+			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_yellow_by_cleopatrawolf_dfv0vap_WVfFXCp.gif",
+			"can_capture": true
+		},
+		"points": 0
 	},
 ```
 ___
