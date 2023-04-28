@@ -58,7 +58,11 @@ class AnimalSerializer(serializers.ModelSerializer):
         return WEATHER_MAP.get(obj.weather.weather_code, '')
 
     def get_can_capture(self, obj):
+        # get the current request object, which is passed to the serializer context.
         request = self.context.get('request')
+
+        # checks if the request object is None or if the user is not authenticated.
+        # If either of these conditions is true, then the user cannot capture the animal, so it returns False.
         if not request or not request.user.is_authenticated:
             return False
 
