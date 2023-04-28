@@ -54,18 +54,39 @@ class CapturedAnimalView(APIView):
         animal = get_object_or_404(
             Animal, name__iexact=name, variation_type__iexact=variation)
 
-        try:
-            captured = CapturedAnimal.objects.create(
-                owner=owner, animal=animal)
-        except IntegrityError:
-            # return custom error response if duplicate ownership
-            return Response(
-                {"error": "You have already captured an animal of this variation!"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        captured_animal, created = CapturedAnimal.objects.get_or_create(
+            owner=owner, animal=animal,
+            defaults={'last_capture_date': datetime.now(timezone.utc), 'points': 0})
+
+        if not created:
+            last_capture_date = captured_animal.last_capture_date
+            time_difference = (datetime.now(timezone.utc) -
+                               last_capture_date).total_seconds()
+
+            #  86400 seconds for 24 hours
+            # 43200 seconds for 12 hours
+            if time_difference < 43200:
+                return Response(
+                    {"error": "You have already captured this animal within 12 hours!"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                captured_animal.last_capture_date = datetime.now(timezone.utc)
+                captured_animal.points += 1
+                captured_animal.save()
+
+        # if captured_animal.points == 10:
+        #     new_animal = SpecialAnimal.objects.filter(
+        #         variation_type=variation).first()
+        #     if new_animal:
+        #         special_captured = CapturedAnimal.objects.create(
+        #             owner=owner, animal=new_animal, points=0)
+        #         serializer = CapturedAnimalSerializer(
+        #             special_captured, context={'request': request})
+        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         serializer = CapturedAnimalSerializer(
-            captured, context={'request': request})
+            captured_animal, context={'request': request})
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -188,6 +209,7 @@ class TradeAcceptView(APIView):
 class WeatherAnimalView(generics.RetrieveAPIView):
     '''fetch random animal of weather type given in url
     '''
+
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
 
@@ -201,16 +223,6 @@ class WeatherAnimalView(generics.RetrieveAPIView):
         animals = Animal.objects.filter(weather__weather_code=weather_code)
         animals = list(animals)
 
-        # generate cache key specific to animal's name and variation type
-        cache_key = f"weather_animal:{animals[0].name}:{animals[0].variation_type}"
-
-        # check if cache exists for the animal and variation type
-        cached_animal = cache.get(cache_key)
-        if cached_animal:
-            return cached_animal
-
-        # if cache doesn't exist, choose a random animal and cache it
         random_animal = random.choice(animals)
-        cache.set(cache_key, random_animal, 43200)  # cache for 12 hours
 
         return random_animal
