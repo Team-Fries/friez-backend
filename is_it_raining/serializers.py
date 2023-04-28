@@ -28,7 +28,6 @@ class BackgroundSerializer(serializers.ModelSerializer):
 
 
 class AnimalSerializer(serializers.ModelSerializer):
-    # random_image = serializers.SerializerMethodField()
     weather = serializers.SerializerMethodField()
 
     class Meta:
@@ -39,15 +38,7 @@ class AnimalSerializer(serializers.ModelSerializer):
             'weather',
             'variation_type',
             'image',
-            # 'random_image'
         )
-
-    # def get_random_image(self, obj):
-    #     images = obj.images.order_by("?")
-    #     if images:
-    #         image = images.first()
-    #         return image.image.url
-    #     return None
 
     def get_weather(self, obj):
         WEATHER_MAP = {
@@ -80,7 +71,6 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
         UniqueTogetherValidator(
             queryset=CapturedAnimal.objects.all(),
             fields=('owner', 'animal__variation_type'),
-            message="You have already captured an animal of this variation!"
         )
     ]
 
