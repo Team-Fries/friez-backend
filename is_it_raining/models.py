@@ -100,3 +100,13 @@ class SpecialAnimal(models.Model):
 
     def __str__(self):
         return f"Special {self.animal}"
+
+
+class CapturedSpecialAnimal(models.Model):
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='owner')
+    special_animal = models.ForeignKey(
+        SpecialAnimal, on_delete=models.CASCADE, related_name='special-animal')
+
+    def __str__(self):
+        return f"{self.owner} obtained {self.special_animal}"

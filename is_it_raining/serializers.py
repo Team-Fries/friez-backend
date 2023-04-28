@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils import timezone
 from rest_framework.validators import UniqueTogetherValidator
 from rest_framework import serializers
-from .models import Weather, Animal, CapturedAnimal, Trade, Background
+from .models import Weather, Animal, CapturedAnimal, Trade, Background, SpecialAnimal, CapturedSpecialAnimal
 
 
 class WeatherSerializer(serializers.ModelSerializer):
@@ -128,3 +128,24 @@ class TradeSerializer(serializers.ModelSerializer):
 
     def get_desired_animal(self, obj):
         return obj.desired_animal.animal.name
+
+
+class SpecialAnimalSerializer(AnimalSerializer):
+    image = serializers.ImageField()
+
+    class Meta:
+        model = SpecialAnimal
+        fields = ('id', 'name', 'variation_type', 'image')
+
+
+class CapturedSpecialAnimalSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField()
+    special_animal = SpecialAnimalSerializer()
+
+    class Meta:
+        model = CapturedSpecialAnimal
+        fields = (
+            'id',
+            'owner',
+            'special_animal',
+        )
