@@ -91,6 +91,17 @@ class CapturedAnimalView(APIView):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def delete(self, request, name, variation):
+        owner = request.user
+        animal = get_object_or_404(
+            Animal, name__iexact=name, variation_type__iexact=variation)
+
+        release_animal = get_object_or_404(
+            CapturedAnimal, owner=owner, animal=animal)
+        release_animal.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class UserAnimalListView(generics.ListAPIView):
     ''' list of all the user's caught animals
