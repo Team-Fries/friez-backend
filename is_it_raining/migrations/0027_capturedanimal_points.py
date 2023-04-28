@@ -10,9 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='capturedanimal',
-            name='points',
-            field=models.IntegerField(default=0),
-        ),
+
     ]
