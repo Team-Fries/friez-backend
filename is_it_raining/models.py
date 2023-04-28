@@ -90,3 +90,13 @@ class Trade(models.Model):
 
     def __str__(self):
         return f"{self.offered_animal} - EXCHANGED FOR: {self.desired_animal}"
+
+
+class SpecialAnimal(models.Model):
+    animal = models.ForeignKey(
+        Animal, on_delete=models.CASCADE, related_name='special_animal')
+    image = models.ImageField(blank=True, null=True,
+                              upload_to='team-fries-images')
+
+    def __str__(self):
+        return f"Special {self.animal}"

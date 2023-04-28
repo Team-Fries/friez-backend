@@ -75,15 +75,16 @@ class CapturedAnimalView(APIView):
                 captured_animal.points += 1
                 captured_animal.save()
 
-        # if captured_animal.points == 10:
-        #     new_animal = SpecialAnimal.objects.filter(
-        #         variation_type=variation).first()
-        #     if new_animal:
-        #         special_captured = CapturedAnimal.objects.create(
-        #             owner=owner, animal=new_animal, points=0)
-        #         serializer = CapturedAnimalSerializer(
-        #             special_captured, context={'request': request})
-        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # SpecialAnimal created when 10 point reached
+        if captured_animal.points == 10:
+            new_animal = SpecialAnimal.objects.filter(
+                variation_type=variation).first()
+            if new_animal:
+                special_captured = CapturedAnimal.objects.create(
+                    owner=owner, animal=new_animal, points=0)
+                serializer = CapturedAnimalSerializer(
+                    special_captured, context={'request': request})
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         serializer = CapturedAnimalSerializer(
             captured_animal, context={'request': request})
