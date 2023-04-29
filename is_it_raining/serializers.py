@@ -25,7 +25,8 @@ class BackgroundSerializer(serializers.ModelSerializer):
             'name',
             'background_image',
             'day_or_night',
-            'code'
+            'code',
+            'audio_file',
         )
 
 
@@ -33,6 +34,7 @@ class AnimalSerializer(serializers.ModelSerializer):
     weather = serializers.SerializerMethodField()
     can_capture = serializers.SerializerMethodField()
     points_left_until_max = serializers.SerializerMethodField()
+    audio = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -44,6 +46,7 @@ class AnimalSerializer(serializers.ModelSerializer):
             'image',
             'can_capture',
             'points_left_until_max',
+            'audio',
         )
 
     def get_weather(self, obj):
@@ -102,6 +105,12 @@ class AnimalSerializer(serializers.ModelSerializer):
             return 0
         else:
             return points_left
+
+    def get_audio(self, obj):
+        if obj.can_capture:
+            return 'https://example.com/capture_audio.mp3'
+        else:
+            return ''
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
