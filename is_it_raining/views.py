@@ -11,8 +11,8 @@ from django.db import IntegrityError
 from django.core.cache import cache
 
 
-from .models import User, Weather, Animal, CapturedAnimal, Trade, Background
-from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, BackgroundSerializer
+from .models import User, Weather, Animal, CapturedAnimal, Trade, Background, SpecialAnimal, CapturedSpecialAnimal
+from .serializers import WeatherSerializer, AnimalSerializer, CapturedAnimalSerializer, TradeSerializer, BackgroundSerializer, SpecialAnimalSerializer, CapturedSpecialAnimalSerializer
 
 
 @api_view(["GET"])
@@ -65,7 +65,7 @@ class CapturedAnimalView(APIView):
 
             #  86400 seconds for 24 hours
             # 43200 seconds for 12 hours
-            if time_difference < 43200:
+            if time_difference < 10:
                 return Response(
                     {"error": "You have already captured this animal within 12 hours!"},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -75,15 +75,16 @@ class CapturedAnimalView(APIView):
                 captured_animal.points += 1
                 captured_animal.save()
 
-        # if captured_animal.points == 10:
-        #     new_animal = SpecialAnimal.objects.filter(
-        #         variation_type=variation).first()
-        #     if new_animal:
-        #         special_captured = CapturedAnimal.objects.create(
-        #             owner=owner, animal=new_animal, points=0)
-        #         serializer = CapturedAnimalSerializer(
-        #             special_captured, context={'request': request})
-        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # SpecialAnimal created when 10 point reached
+        if captured_animal.points == 10:
+            special_animal = SpecialAnimal.objects.filter(
+                animal__name__iexact=name, animal__variation_type__iexact=variation).first()
+            if special_animal:
+                special_captured, created = CapturedSpecialAnimal.objects.get_or_create(
+                    owner=owner, special_animal=special_animal)
+                serializer = CapturedSpecialAnimalSerializer(
+                    special_captured, context={'request': request})
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         serializer = CapturedAnimalSerializer(
             captured_animal, context={'request': request})
@@ -111,6 +112,17 @@ class UserAnimalListView(generics.ListAPIView):
     def get_queryset(self):
         owner = self.request.user
         return CapturedAnimal.objects.filter(owner=owner)
+
+
+class UserSpecialAnimalListView(generics.ListAPIView):
+    ''' list of all the user's special animals
+    '''
+
+    serializer_class = CapturedSpecialAnimalSerializer
+
+    def get_queryset(self):
+        owner = self.request.user
+        return CapturedSpecialAnimal.objects.filter(owner=owner)
 
 
 class AnimalDetailView(APIView):

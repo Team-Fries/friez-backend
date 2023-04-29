@@ -14,9 +14,4 @@ class Migration(migrations.Migration):
             model_name='capturedanimal',
             name='unique_ownership',
         ),
-        migrations.AddField(
-            model_name='capturedanimal',
-            name='points',
-            field=models.PositiveIntegerField(default=1),
-        ),
     ]
