@@ -81,7 +81,7 @@ class AnimalSerializer(serializers.ModelSerializer):
                            last_capture_date).total_seconds()
 
         # Check if enough time has passed for the user to capture the animal again
-        if time_difference < 43200:
+        if time_difference < 60:
             return False
         else:
             return True
