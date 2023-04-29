@@ -36,7 +36,7 @@ class BackgroundView(generics.ListAPIView):
         queryset = Background.objects.all()
         code = self.request.query_params.get('code')[0]
 
-        now = datetime.now().time()
+        now = timezone.localtime().time()
 
         if time(7) <= now <= time(20):
             queryset = queryset.filter(code=code, day_or_night='am')
