@@ -8,7 +8,8 @@ from rest_framework.response import Response
 from rest_framework import generics, filters, status
 from rest_framework.views import APIView
 from django.db import IntegrityError
-from django.core.cache import cache
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 
 from .models import User, Weather, Animal, CapturedAnimal, Trade, Background, SpecialAnimal, CapturedSpecialAnimal
@@ -25,6 +26,8 @@ class AnimalListView(generics.ListAPIView):
     '''
     queryset = Animal.objects.all()
     serializer_class = AnimalSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class BackgroundView(generics.ListAPIView):
@@ -48,6 +51,8 @@ class BackgroundView(generics.ListAPIView):
 class CapturedAnimalView(APIView):
     '''logged in user captures animal or removes an animal
     '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, name, variation):
         owner = request.user
@@ -56,7 +61,7 @@ class CapturedAnimalView(APIView):
 
         captured_animal, created = CapturedAnimal.objects.get_or_create(
             owner=owner, animal=animal,
-            defaults={'last_capture_date': datetime.now(timezone.utc), 'points': 0})
+            defaults={'last_capture_date': datetime.now(timezone.utc)})
 
         if not created:
             last_capture_date = captured_animal.last_capture_date
@@ -108,6 +113,8 @@ class UserAnimalListView(generics.ListAPIView):
     '''
 
     serializer_class = CapturedAnimalSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         owner = self.request.user
@@ -119,6 +126,8 @@ class UserSpecialAnimalListView(generics.ListAPIView):
     '''
 
     serializer_class = CapturedSpecialAnimalSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         owner = self.request.user
@@ -140,6 +149,8 @@ class AnimalDetailView(APIView):
 class TradeView(APIView):
     ''' allow users to make a trade animals request
     '''
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         trade_starter = request.user
@@ -174,6 +185,8 @@ class MyTradeOfferView(generics.ListAPIView):
     '''
 
     serializer_class = TradeSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         trade_starter = self.request.user
@@ -185,6 +198,8 @@ class MyReceivedOfferView(generics.ListAPIView):
     '''
 
     serializer_class = TradeSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         trade_receiver = self.request.user
@@ -194,6 +209,9 @@ class MyReceivedOfferView(generics.ListAPIView):
 class TradeAcceptView(APIView):
     ''' allow trade receiver to accept a trade request and swap animals
     '''
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, trade_id):
         trade = get_object_or_404(Trade, id=trade_id, status='pending')
