@@ -34,7 +34,7 @@ class AnimalSerializer(serializers.ModelSerializer):
     weather = serializers.SerializerMethodField()
     can_capture = serializers.SerializerMethodField()
     points_left_until_max = serializers.SerializerMethodField()
-    audio = serializers.SerializerMethodField()
+    catch_um_song = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -46,7 +46,7 @@ class AnimalSerializer(serializers.ModelSerializer):
             'image',
             'can_capture',
             'points_left_until_max',
-            'audio',
+            'catch_um_song',
         )
 
     def get_weather(self, obj):
@@ -106,9 +106,9 @@ class AnimalSerializer(serializers.ModelSerializer):
         else:
             return points_left
 
-    def get_audio(self, obj):
-        if obj.can_capture:
-            return 'https://example.com/capture_audio.mp3'
+    def get_catch_um_song(self, obj):
+        if self.get_can_capture(obj):
+            return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav'
         else:
             return ''
 
@@ -117,6 +117,7 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
     animal = AnimalSerializer()
     points = serializers.IntegerField()
+    animal_lobby_song = serializers.SerializerMethodField()
 
     class Meta:
         model = CapturedAnimal
@@ -124,6 +125,7 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
             'owner',
             'animal',
             'points',
+            'animal_lobby_song',
         )
 
     validators = [
@@ -132,6 +134,9 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
             fields=('owner', 'animal__variation_type'),
         )
     ]
+
+    def get_animal_lobby_song(self, obj):
+        return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav'
 
 
 class TradeSerializer(serializers.ModelSerializer):
