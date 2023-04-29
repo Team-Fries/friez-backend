@@ -20,6 +20,7 @@ ___
 | POST       | /captured/\<str:name\>/\<str:variation\>              | Captures animal passed in                  |
 | DELETE     | /captured/\<str:name\>/\<str:variation\>              | Remove animal passed in                    |
 | GET        | /my-animals                           		         | List all the user's caught animals         |
+| GET        | /my-special-animals                           		 | List all Special animals                   |
 | POST       | /trade                                                | User sends a request to trade              |
 | GET        | /my-offers                                            | List offers logged in user created         |
 | GET        | /my-received-offers                                   | List offers recieved from other users      |
@@ -28,7 +29,7 @@ ___
      
 
 
-🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🦤 🐘 🐇 🦃 🦜 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
+🦣 🐁 🐸 🐄 🐴 🐈 🐕 🦏 🦤 🐘 🐇 🦃 🐍 🐋 🕷️ 🪲 🦂 🦒 🐏 🦌 🐜 🐖 🐐 🦦 🦉 🦎 🐟 🐔 🦬 🐬 🐥 🐙 🪰 🐛 🦨 
 
 ### Documentation
 ___
@@ -103,16 +104,13 @@ ___
 Stored As:
 ```json
 {
-	"owner": "ivar",
-	"animal": {
-		"id": 12,
-		"name": "Quetzalcoatlus",
-		"weather": "Clear",
-		"variation_type": "A",
-		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
-		"can_capture": false
-	},
-	"points": 1
+	"id": 15,
+	"name": "Toucan",
+	"weather": "Clear",
+	"variation_type": "B",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_yellow_by_cleopatrawolf_dfv0vap_WVfFXCp.gif",
+	"can_capture": true,
+	"points_left_until_max": 10
 }
 ```
 ___
@@ -131,12 +129,13 @@ ___
 Stored As:
 ```json
 {
-	"id": 12,
-	"name": "Quetzalcoatlus",
-	"weather": "Clear",
+	"id": 9,
+	"name": "Trex",
+	"weather": "Atmosphere",
 	"variation_type": "A",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
-	"can_capture": false
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/trex_brown_by_cleopatrawolf_dfv0vae_LInp5lw.gif",
+	"can_capture": false,
+	"points_left_until_max": 7
 }
 ```
 ___
@@ -151,28 +150,51 @@ ___
 Stored As:
 ```json
 {
-		"id": 4,
-		"name": "Alligator",
-		"weather": "Thunderstorm",
-		"variation_type": "A",
-		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_green_by_cleopatrawolf_dfv8lhg_b05MUUF.gif"
-	},
-	{
-		"id": 12,
-		"name": "Alligator",
-		"weather": "Thunderstorm",
-		"variation_type": "B",
-		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_purple_by_cleopatrawolf_dfv8li4_i0CiUHr.gif"
-	},
-	{
-		"id": 13,
-		"name": "Alligator",
-		"weather": "Thunderstorm",
-		"variation_type": "C",
-		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_red_by_cleopatrawolf_dfv8lhv_dianuG0.gif"
-	},
+	"id": 12,
+	"name": "Quetzalcoatlus",
+	"weather": "Clear",
+	"variation_type": "A",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
+	"can_capture": false,
+	"points_left_until_max": 0
+},
+{
+	"id": 5,
+	"name": "Alligator",
+	"weather": "Thunderstorm",
+	"variation_type": "A",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_green_by_cleopatrawolf_dfv8lhg_83XWY4I.gif",
+	"can_capture": true,
+	"points_left_until_max": 10
+},
 ```
 ___
+
+## 🦜   my-special-animals/
+
+- List of all the user's Special Animals
+
+- Allowed Request: GET
+
+
+Stored As:
+```json
+{
+	"id": 13,
+	"owner": "ivar",
+	"image": null,
+	"animal_name": "Quetzalcoatlus",
+	"variation_type": "A"
+},
+{
+	"id": 14,
+	"owner": "ivar",
+	"image": null,
+	"animal_name": "Trex",
+	"variation_type": "A"
+}
+
+```
 
 ## 🐊   captured/\<str:name\>/\<str:variation\>/ 
 
@@ -223,7 +245,7 @@ Stored As:
 			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_black_by_cleopatrawolf_dfv0vav_NSlUIpJ.gif",
 			"can_capture": true
 		},
-		"points": 0
+		"points": 2
 	},
 	{
 		"owner": "ivar",
@@ -247,7 +269,7 @@ Stored As:
 			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_yellow_by_cleopatrawolf_dfv0vap_WVfFXCp.gif",
 			"can_capture": true
 		},
-		"points": 0
+		"points": 9
 	},
 ```
 ___
