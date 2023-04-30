@@ -124,7 +124,7 @@ class AnimalSerializer(serializers.ModelSerializer):
 
     def get_catch_um_song(self, obj):
         if self.get_can_capture(obj):
-            return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav'
+            return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum-correct.wav'
         else:
             return ''
 
@@ -152,7 +152,7 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
     ]
 
     def get_animal_lobby_song(self, obj):
-        return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav'
+        return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/safari-for-lobby.wav'
 
 
 class TradeSerializer(serializers.ModelSerializer):
