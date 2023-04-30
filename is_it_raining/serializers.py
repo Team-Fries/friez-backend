@@ -35,6 +35,7 @@ class AnimalSerializer(serializers.ModelSerializer):
     can_capture = serializers.SerializerMethodField()
     points_left_until_max = serializers.SerializerMethodField()
     catch_um_song = serializers.SerializerMethodField()
+    special_animal = serializers.SerializerMethodField()
 
     class Meta:
         model = Animal
@@ -111,6 +112,9 @@ class AnimalSerializer(serializers.ModelSerializer):
             return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav'
         else:
             return ''
+        
+    def get_special_animal(self, obj):
+        
 
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
