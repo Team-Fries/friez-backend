@@ -19,8 +19,6 @@ class Background(models.Model):
                                          upload_to='background')
     code = models.CharField(max_length=3)
     day_or_night = models.CharField(max_length=2)
-    audio_file = models.FileField(blank=True, null=True,
-                                  upload_to='music')
 
     def __str__(self):
         return self.name
@@ -101,7 +99,7 @@ class SpecialAnimal(models.Model):
                               upload_to='team-fries-images')
 
     def __str__(self):
-        return f"{self.animal.name} {self.animal.variation_type}"
+        return f"{self.animal.name}"
 
 
 class CapturedSpecialAnimal(models.Model):
