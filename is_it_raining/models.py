@@ -99,7 +99,7 @@ class SpecialAnimal(models.Model):
                               upload_to='team-fries-images')
 
     def __str__(self):
-        return f"{self.animal.name} {self.animal.variation_type}"
+        return f"{self.animal.name}"
 
 
 class CapturedSpecialAnimal(models.Model):

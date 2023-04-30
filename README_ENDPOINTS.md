@@ -104,13 +104,21 @@ ___
 Stored As:
 ```json
 {
-	"id": 15,
-	"name": "Toucan",
+	"id": 12,
+	"name": "Quetzalcoatlus",
 	"weather": "Clear",
-	"variation_type": "B",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_yellow_by_cleopatrawolf_dfv0vap_WVfFXCp.gif",
+	"variation_type": "A",
+	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
 	"can_capture": true,
-	"points_left_until_max": 10
+	"points_left_until_max": 0,
+	"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+	"special_animal": [
+		{
+			"special_name": "Quetzalcoatlus",
+			"special_type": "A",
+			"image": ""
+		}
+	]
 }
 ```
 ___
@@ -129,13 +137,15 @@ ___
 Stored As:
 ```json
 {
-	"id": 9,
-	"name": "Trex",
-	"weather": "Atmosphere",
+	"id": 6,
+	"name": "Toad",
+	"weather": "Drizzle",
 	"variation_type": "A",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/trex_brown_by_cleopatrawolf_dfv0vae_LInp5lw.gif",
+	"image": null,
 	"can_capture": false,
-	"points_left_until_max": 7
+	"points_left_until_max": null,
+	"catch_um_song": "",
+	"special_animal": []
 }
 ```
 ___
@@ -149,24 +159,34 @@ ___
 
 Stored As:
 ```json
-{
-	"id": 12,
-	"name": "Quetzalcoatlus",
-	"weather": "Clear",
-	"variation_type": "A",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
-	"can_capture": false,
-	"points_left_until_max": 0
-},
-{
-	"id": 5,
-	"name": "Alligator",
-	"weather": "Thunderstorm",
-	"variation_type": "A",
-	"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/alligator_green_by_cleopatrawolf_dfv8lhg_83XWY4I.gif",
-	"can_capture": true,
-	"points_left_until_max": 10
-},
+	{
+		"id": 12,
+		"name": "Quetzalcoatlus",
+		"weather": "Clear",
+		"variation_type": "A",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
+		"can_capture": true,
+		"points_left_until_max": 0,
+		"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+		"special_animal": [
+			{
+				"special_name": "Quetzalcoatlus",
+				"special_type": "A",
+				"image": ""
+			}
+		]
+	},
+	{
+		"id": 13,
+		"name": "Quetzalcoatlus",
+		"weather": "Clear",
+		"variation_type": "B",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_blue_by_cleopatrawolf_dfv8lkv_voGw7rF.gif",
+		"can_capture": true,
+		"points_left_until_max": 9,
+		"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+		"special_animal": []
+	},
 ```
 ___
 
@@ -180,20 +200,23 @@ ___
 Stored As:
 ```json
 {
-	"id": 13,
-	"owner": "ivar",
-	"image": null,
-	"animal_name": "Quetzalcoatlus",
-	"variation_type": "A"
-},
-{
 	"id": 14,
 	"owner": "ivar",
-	"image": null,
-	"animal_name": "Trex",
-	"variation_type": "A"
+	"special_animal": {
+		"special_name": "Trex",
+		"special_type": "A",
+		"image": ""
+	}
+},
+{
+	"id": 16,
+	"owner": "ivar",
+	"special_animal": {
+		"special_name": "Quetzalcoatlus",
+		"special_type": "A",
+		"image": ""
+	}
 }
-
 ```
 
 ## 🐊   captured/\<str:name\>/\<str:variation\>/ 
@@ -214,15 +237,24 @@ Stored As:
 {
 	"owner": "ivar",
 	"animal": {
-		"id": 17,
-		"name": "Trex",
-		"weather": "Atmosphere",
-		"variation_type": "B",
-		"image": null,
-		"can_capture": false
-	},
-	"points": 4
-}
+		"id": 10,
+		"name": "Toucan",
+		"weather": "Clear",
+		"variation_type": "A",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_black_by_cleopatrawolf_dfv0vav_NSlUIpJ.gif",
+		"can_capture": true,
+		"points_left_until_max": 10,
+		"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+		"special_animal": [
+			{
+				"special_name": "Toucan",
+				"special_type": "A",
+				"image": ""
+			}
+		],
+	"points": 5,
+	"animal_lobby_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav"
+},
 ```
 ___
 
@@ -235,42 +267,50 @@ ___
 
 Stored As:
 ```json
-	{
-		"owner": "ivar",
-		"animal": {
-			"id": 10,
-			"name": "Toucan",
-			"weather": "Clear",
-			"variation_type": "A",
-			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_black_by_cleopatrawolf_dfv0vav_NSlUIpJ.gif",
-			"can_capture": true
-		},
-		"points": 2
+{
+	"owner": "ivar",
+	"animal": {
+		"id": 17,
+		"name": "Trex",
+		"weather": "Atmosphere",
+		"variation_type": "B",
+		"image": null,
+		"can_capture": true,
+		"points_left_until_max": 6,
+		"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+		"special_animal": [
+			{
+				"special_name": "Trex",
+				"special_type": "A",
+				"image": ""
+			}
+		]
 	},
-	{
-		"owner": "ivar",
-		"animal": {
-			"id": 16,
-			"name": "Alligator",
-			"weather": "Thunderstorm",
-			"variation_type": "B",
-			"image": null,
-			"can_capture": true
-		},
-		"points": 0
+	"points": 4,
+	"animal_lobby_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav"
+},
+{
+	"owner": "ivar",
+	"animal": {
+		"id": 12,
+		"name": "Quetzalcoatlus",
+		"weather": "Clear",
+		"variation_type": "A",
+		"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/quetzalcoatlus_black_by_cleopatrawolf_dfv8lke_74KRo7V.gif",
+		"can_capture": true,
+		"points_left_until_max": 0,
+		"catch_um_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav",
+		"special_animal": [
+			{
+				"special_name": "Quetzalcoatlus",
+				"special_type": "A",
+				"image": ""
+			}
+		]
 	},
-	{
-		"owner": "ivar",
-		"animal": {
-			"id": 15,
-			"name": "Toucan",
-			"weather": "Clear",
-			"variation_type": "B",
-			"image": "https://team-fries-images.s3.amazonaws.com/team-fries-images/toucan_yellow_by_cleopatrawolf_dfv0vap_WVfFXCp.gif",
-			"can_capture": true
-		},
-		"points": 9
-	},
+	"points": 11,
+	"animal_lobby_song": "https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav"
+},
 ```
 ___
 

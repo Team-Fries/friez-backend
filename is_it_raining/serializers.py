@@ -25,7 +25,22 @@ class BackgroundSerializer(serializers.ModelSerializer):
             'name',
             'background_image',
             'day_or_night',
-            'code'
+            'code',
+            'audio_file',
+        )
+
+
+class SpecialAnimalSerializer(serializers.ModelSerializer):
+    special_name = serializers.CharField(source='animal.name')
+    special_type = serializers.CharField(source='animal.variation_type')
+    image = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        model = SpecialAnimal
+        fields = (
+            'special_name',
+            'special_type',
+            'image',
         )
 
 
@@ -33,6 +48,8 @@ class AnimalSerializer(serializers.ModelSerializer):
     weather = serializers.SerializerMethodField()
     can_capture = serializers.SerializerMethodField()
     points_left_until_max = serializers.SerializerMethodField()
+    catch_um_song = serializers.SerializerMethodField()
+    special_animal = SpecialAnimalSerializer(many=True)
 
     class Meta:
         model = Animal
@@ -44,6 +61,8 @@ class AnimalSerializer(serializers.ModelSerializer):
             'image',
             'can_capture',
             'points_left_until_max',
+            'catch_um_song',
+            'special_animal',
         )
 
     def get_weather(self, obj):
@@ -103,11 +122,18 @@ class AnimalSerializer(serializers.ModelSerializer):
         else:
             return points_left
 
+    def get_catch_um_song(self, obj):
+        if self.get_can_capture(obj):
+            return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/catchum.wav'
+        else:
+            return ''
+
 
 class CapturedAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(many=False)
     animal = AnimalSerializer()
     points = serializers.IntegerField()
+    animal_lobby_song = serializers.SerializerMethodField()
 
     class Meta:
         model = CapturedAnimal
@@ -115,6 +141,7 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
             'owner',
             'animal',
             'points',
+            'animal_lobby_song',
         )
 
     validators = [
@@ -123,6 +150,9 @@ class CapturedAnimalSerializer(serializers.ModelSerializer):
             fields=('owner', 'animal__variation_type'),
         )
     ]
+
+    def get_animal_lobby_song(self, obj):
+        return 'https://team-fries-images.s3.us-east-2.amazonaws.com/music/AnimalLobby.wav'
 
 
 class TradeSerializer(serializers.ModelSerializer):
@@ -149,18 +179,10 @@ class TradeSerializer(serializers.ModelSerializer):
         return obj.desired_animal.animal.name
 
 
-class SpecialAnimalSerializer(AnimalSerializer):
-    animal = AnimalSerializer()
-
-    class Meta:
-        model = SpecialAnimal
-        fields = ('id', 'animal', 'image')
-
-
 class CapturedSpecialAnimalSerializer(serializers.ModelSerializer):
     owner = serializers.StringRelatedField()
     special_animal = SpecialAnimalSerializer()
-    image = serializers.SerializerMethodField()
+    # image = serializers.SerializerMethodField()
 
     class Meta:
         model = CapturedSpecialAnimal
@@ -168,16 +190,16 @@ class CapturedSpecialAnimalSerializer(serializers.ModelSerializer):
             'id',
             'owner',
             'special_animal',
-            'image'
+            # 'image'
 
         )
 
-    def get_image(self, obj):
-        return obj.special_animal.image.url if obj.special_animal.image else None
+    # def get_image(self, obj):
+    #     return obj.special_animal.image.url if obj.special_animal.image else None
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['animal_name'] = representation['special_animal']['animal']['name']
-        representation['variation_type'] = representation['special_animal']['animal']['variation_type']
-        del representation['special_animal']
-        return representation
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['animal_name'] = representation['special_animal']['animal']['name']
+    #     representation['variation_type'] = representation['special_animal']['animal']['variation_type']
+    #     del representation['special_animal']
+    #     return representation
