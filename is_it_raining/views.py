@@ -1,4 +1,5 @@
 from django.utils import timezone
+import pytz
 import random
 from datetime import datetime
 from datetime import time
@@ -38,8 +39,8 @@ class BackgroundView(generics.ListAPIView):
     def get_queryset(self):
         queryset = Background.objects.all()
         code = self.request.query_params.get('code')[0]
-
-        now = datetime.now().time()
+        now = timezone.now().astimezone(pytz.timezone(
+            timezone.get_current_timezone_name())).time()
 
         if time(7) <= now <= time(20):
             queryset = queryset.filter(code=code, day_or_night='am')
