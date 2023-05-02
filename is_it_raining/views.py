@@ -1,9 +1,9 @@
 from django.utils import timezone
-import pytz
 import random
 from datetime import datetime
 from datetime import time
 from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, filters, status
@@ -39,8 +39,7 @@ class BackgroundView(generics.ListAPIView):
     def get_queryset(self):
         queryset = Background.objects.all()
         code = self.request.query_params.get('code')[0]
-        now = timezone.now().astimezone(pytz.timezone(
-            timezone.get_current_timezone_name())).time()
+        now = datetime.now().time()
 
         if time(7) <= now <= time(20):
             queryset = queryset.filter(code=code, day_or_night='am')
@@ -253,6 +252,9 @@ class WeatherAnimalView(generics.RetrieveAPIView):
 
         animals = Animal.objects.filter(weather__weather_code=weather_code)
         animals = list(animals)
+
+        if not animals:
+            raise Http404("No animal object found for the given weather code.")
 
         random_animal = random.choice(animals)
 
