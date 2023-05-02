@@ -37,6 +37,7 @@ class SpecialAnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpecialAnimal
         fields = (
+            'id',
             'special_name',
             'special_type',
             'image',
