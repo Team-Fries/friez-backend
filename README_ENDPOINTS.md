@@ -1,3 +1,28 @@
+# Is It Raining
+___
+
+This is a REST API built with Django Rest Framework to provide functionality to the front end app, "Is It Raining":
+
+#### https://jade-profiterole-ae6017.netlify.app/
+
+___
+### To Run Locally:
+
+Clone the repo:
+    https://github.com/Team-Fries/friez-backend.git
+
+Install dependencies:
+    pipenv install
+
+Activate local environment:
+    pipenv shell
+
+Make sure you have postgresql installed
+
+To run server:
+    python manage.py runserver
+
+___
 ## 🐌  https://is-it-raining.herokuapp.com/
 
 - Base url for the API
