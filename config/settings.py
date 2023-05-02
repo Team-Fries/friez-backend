@@ -135,7 +135,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles"  # <-- add this
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -163,9 +163,6 @@ del DATABASES['default']['OPTIONS']['sslmode']
 
 if env('USE_S3'):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    # STORAGES = {"staticfiles": {
-    #     "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}}
 
     AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')

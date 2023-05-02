@@ -1,7 +1,7 @@
 
-## To Run Locally
-___
-1. Clone the GitHub repo:
+#friez
+
+Team 17 Final Project
 
 
 
