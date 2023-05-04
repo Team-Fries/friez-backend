@@ -42,7 +42,7 @@ class BackgroundView(generics.ListAPIView):
         now = datetime.now().time()
 
         if time(7) <= now <= time(20):
-            queryset = queryset.filter(code=code, day_or_night='am')
+            queryset = queryset.filter(code=code, day_or_night='pm')
         else:
             queryset = queryset.filter(code=code, day_or_night='pm')
         return queryset
